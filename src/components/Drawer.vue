@@ -19,7 +19,7 @@
                     </v-list-tile-content>
 
                     <router-link tag="div" to="/admin/login" class="v-list__tile__action">
-                        <v-icon @click="drawer = false" color="pink">logout</v-icon>
+                        <v-icon @click="drawer = false" color="pink">exit_to_app</v-icon>
                     </router-link>
                     
                 </v-list-tile>

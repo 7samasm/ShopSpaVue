@@ -46,7 +46,9 @@ export default class ShopService {
 		return new Promise(async (resolve,reject) => {
 			try
 			{
-				const {data}  = await axios.get(`${url}/cart`)
+				const {data}  = await axios.get(`${url}/cart`,{
+					headers : {'x-Auth' : localStorage.getItem('token')}
+				})
 				resolve(data)
 			} catch(err){
 				reject(err.message)
