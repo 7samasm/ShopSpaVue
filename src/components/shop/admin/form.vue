@@ -20,6 +20,7 @@
 					appendIcon="money"
 					:color="baseColor"></v-text-field>
 				<v-btn
+					outline
 					v-if="editable"
 					@click="editProduct"
 					class="white--text ml-0"
@@ -28,6 +29,7 @@
 						<span>edit</span>						
 					</v-btn>
 				<v-btn
+					outline
 					v-else
 					@click="addProduct"
 					class="white--text ml-0"

@@ -46,7 +46,7 @@
 					// mock server dellay
 					setTimeout(async ()=>{
 					//remove it from cart
-					await this.removeCartItem(id)
+					const isDeletedFromCart = await this.removeCartItem(id)
 					// delete product from database
 					await ShopService.deleteProduct({productId: id})
 					// update data to update ui

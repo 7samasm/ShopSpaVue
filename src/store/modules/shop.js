@@ -16,7 +16,7 @@ const getters =
 // helper funcs
 const getCart = async cb => {
 	const res = await ShopService.getCart()
-	cb(res)
+	return cb(res)
 }
 const restAll = (state) => {
 	getCart(res => {
@@ -36,27 +36,6 @@ const mutations =
 	},
 	restAllState(state) {
 		restAll(state)
-	},
-	// methods
-	deleteCartItem(state,prodId) {
-		//get cart data from callback
-		getCart(res => {
-			// check if prod pram id (item) its not on cart
-			const indexOfProduct = res.products.findIndex(cp => {
-				// test
-        		return cp.productId._id.toString() === prodId.toString();
-    		});
-    		// if item in the cart
-    		if (indexOfProduct >= 0) {
-    			// remove it
-				ShopService.deleteCartItem({productId : prodId}).then(()=>{
-					// then rest state
-					restAll(state)
-				})
-    		} else {
-    			return;
-    		}
-		})
 	}
 }
 
@@ -67,8 +46,28 @@ const actions = {
     setTotalCart({commit}) {
         commit('reSetTotal')
     },
-    removeCartItem({commit},payload){
-        commit('deleteCartItem',payload)
+    removeCartItem({commit},prodId){
+		//get cart data from callback
+		return getCart(res => {
+			let isDeletedFromCart 
+			// check if prod pram id (item) its not on cart
+			const indexOfProduct = res.products.findIndex(cp => {
+				// test
+        		return cp.productId._id.toString() === prodId.toString();
+    		});
+    		// if item in the cart
+    		if (indexOfProduct >= 0) {
+    			// remove it
+				isDeletedFromCart = ShopService.deleteCartItem({productId : prodId}).then(()=>{
+					// then rest state
+					commit('restAllState')
+					return true
+				})
+    		} else {
+				isDeletedFromCart = false
+    		}
+    		return isDeletedFromCart
+		})
     }
 };
 

@@ -9,8 +9,7 @@ export default class ShopService {
 		return new Promise(async (resolve,reject) => {
 			try
 			{
-				const res  = await axios.get(`${url}`)
-				const data = res.data;
+				const {data}  = await axios.get(`${url}`)
 				resolve(data)
 			} catch(err){
 				reject(err.message)
@@ -23,8 +22,7 @@ export default class ShopService {
 		return new Promise(async (resolve,reject) => {
 			try
 			{
-				const res  = await axios.get(`${url}/products/${id}`)
-				const data = res.data;
+				const {data}  = await axios.get(`${url}/products/${id}`)
 				resolve(data)
 				console.log(data)
 			} catch(err){
@@ -37,6 +35,7 @@ export default class ShopService {
 		return axios.post(`${url}/admin/add-product`,product)
 	}
 	static deleteProduct(productId){
+		console.log('%c deleteProduct invoked','color:#f00')
 		return axios.post(`${url}/admin/delete-product`,productId)
 	}
 	static editProduct(productId){
@@ -47,8 +46,7 @@ export default class ShopService {
 		return new Promise(async (resolve,reject) => {
 			try
 			{
-				const res  = await axios.get(`${url}/cart`)
-				const data = res.data;
+				const {data}  = await axios.get(`${url}/cart`)
 				resolve(data)
 			} catch(err){
 				reject(err.message)
@@ -59,8 +57,7 @@ export default class ShopService {
 	static insertCartItem(product){
 		return new Promise(async (resolve,reject) => {
 			try {
-				const res = await axios.post(`${url}/cart`,product)
-				const data = res.data;
+				const {data} = await axios.post(`${url}/cart`,product)
 				resolve(data)
 			} catch(e) {
 				reject(e)

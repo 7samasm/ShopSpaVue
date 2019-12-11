@@ -18,7 +18,7 @@
 						<p>quantity : {{cart.quantity}} pcs</p>
 					</v-flex>
 					<v-flex xs10 md1>
-						<v-btn flat fab @click="deleteCartItem(cart.productId._id)"><v-icon color="#FF5049">delete</v-icon></v-btn>
+						<v-btn flat fab @click="removeCartItem(cart.productId._id)"><v-icon color="#FF5049">delete</v-icon></v-btn>
 					</v-flex>					
 				</v-layout>
 			</v-card>
@@ -53,11 +53,7 @@
 			...mapActions([
 				'removeCartItem',
 				'restAllStates'
-			]),
-			async deleteCartItem(id){
-				const d = await this.removeCartItem(id)
-				console.log(d)
-			}
+			])
 		},
 		created(){
 			this.restAllStates()
