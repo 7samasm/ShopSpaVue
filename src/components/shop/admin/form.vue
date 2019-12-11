@@ -5,30 +5,36 @@
 				<v-text-field 
 					ref="title"
 					label="title"
-					appendIcon="edit"
+					appendIcon="title"
 					v-model="title"
-					color="purple"></v-text-field>
+					:color="baseColor"></v-text-field>
 				<v-text-field 
 					label="description"
 					v-model="description"
 					appendIcon="description"
-					color="purple"></v-text-field>
+					:color="baseColor"></v-text-field>
 				<v-text-field 
 					label="price"
 					v-model="price"
 					type="number"
 					appendIcon="money"
-					color="purple"></v-text-field>
+					:color="baseColor"></v-text-field>
 				<v-btn
 					v-if="editable"
 					@click="editProduct"
 					class="white--text ml-0"
-					color="orange">Edit</v-btn>
+					:color="baseColor">
+						<v-icon left>edit</v-icon>
+						<span>edit</span>						
+					</v-btn>
 				<v-btn
 					v-else
 					@click="addProduct"
 					class="white--text ml-0"
-					color="purple">add</v-btn>
+					:color="baseColor">
+						<v-icon left>check_circle</v-icon>
+						<span>add</span>
+					</v-btn>
 			</v-form>
 		</v-card-text>
 	</v-card>
@@ -49,12 +55,26 @@
 				product     : {}
 			}
 		},
+		computed : {
+			baseColor(){
+				return this.editable ? 'orange' : 'teal'
+				console.log('computed called')
+			}
+		},
 		methods : {		
 			editMode(){
-				const obj = this.product
+				const obj        = this.product
 				this.title       = obj.title
 				this.description = obj.description
 				this.price       = obj.price
+			},
+			clearInputs(){
+				// clear inputs
+				this.title = ''
+				this.price = ''
+				this.description = ''
+				// add foucs to title
+				this.$refs.title.focus();
 			},
 			addProduct(){
 				const title       = this.title
@@ -73,12 +93,7 @@
 					}).then(res => {
 						console.log(res.status)
 					})
-					// clear inputs
-					this.title = ''
-					this.price = ''
-					this.description = ''
-					// add foucs to title
-					this.$refs.title.focus();
+					this.clearInputs()
 				}
 			},
 			async editProduct(){
@@ -90,7 +105,7 @@
 					productId : this.productId,
 					title,price,description,imageUrl
 				})
-				alert('updated succssfly')
+				this.clearInputs()
 			}
 		},
 		async created(){

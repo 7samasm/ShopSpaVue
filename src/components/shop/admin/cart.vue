@@ -5,7 +5,7 @@
 			<v-card class="card-item">
 				<v-layout row wrap justify-center>
 					<v-flex xs10 md2>
-						<v-responsive><img src="../../../../public/d.jpg" alt="" class="avatar"></v-responsive>
+						<v-responsive><v-img src="../../../../public/d.jpg" alt="" class="avatar"></v-img></v-responsive>
 					</v-flex>
 					<v-flex xs10 md3>
 						<p>{{cart.productId.title}}</p>
@@ -18,7 +18,7 @@
 						<p>quantity : {{cart.quantity}} pcs</p>
 					</v-flex>
 					<v-flex xs10 md1>
-						<v-btn flat fab @click="removeCartItem(cart.productId._id)"><v-icon color="#FF5049">delete</v-icon></v-btn>
+						<v-btn flat fab @click="deleteCartItem(cart.productId._id)"><v-icon color="#FF5049">delete</v-icon></v-btn>
 					</v-flex>					
 				</v-layout>
 			</v-card>
@@ -33,8 +33,8 @@
 				</v-layout>
 			</v-card>
 		</v-flex>
-		<v-flex xs12 v-else class="center">
-			<h2>there are no products to show</h2>
+		<v-flex md12 v-else>
+			<v-alert  dense  outline :value="true" type="warning">there are no products to show</v-alert>
 		</v-flex>
 	</v-layout>
 </template>
@@ -53,7 +53,11 @@
 			...mapActions([
 				'removeCartItem',
 				'restAllStates'
-			])
+			]),
+			async deleteCartItem(id){
+				const d = await this.removeCartItem(id)
+				console.log(d)
+			}
 		},
 		created(){
 			this.restAllStates()

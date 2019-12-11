@@ -40,15 +40,21 @@
 		},
 		methods:{
 			...mapActions(['removeCartItem']),
-			async deleteProduct(id,title){
+			deleteProduct(id,title){
 				// if confirm dialog
 				if(confirm(`delete ${title} ?`)) {
-					// remove it from cart
-					this.removeCartItem(id)
+					// mock server dellay
+					setTimeout(async ()=>{
+					//remove it from cart
+					await this.removeCartItem(id)
 					// delete product from database
 					await ShopService.deleteProduct({productId: id})
 					// update data to update ui
-					this.prods = await ShopService.getProducts()
+					ShopService.getProducts().then(prods => {
+						this.prods = prods
+					})
+						
+					},500)
 				}
 			}
 		},
