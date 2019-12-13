@@ -18,7 +18,7 @@
                         <v-list-tile-title>Hussam Abdallah</v-list-tile-title>
                     </v-list-tile-content>
 
-                    <router-link v-if="!token"tag="div" to="/admin/login" class="v-list__tile__action">
+                    <router-link v-if="!isLoggedIn"tag="div" to="/admin/login" class="v-list__tile__action">
                         <v-icon  @click="drawer = false" color="pink">exit_to_app</v-icon>
                     </router-link>
 
@@ -54,11 +54,11 @@
 
 <script>
 import {eventBus} from '../main';
+import {mapGetters} from 'vuex'
 export default {
     data () {
         return {
             drawer: false,
-            token : '',
             items: [
                 { title: 'Home', icon: 'home', link : '/' },
                 { title: 'add product', icon: 'add' , link : '/admin/add-product' },
@@ -66,14 +66,18 @@ export default {
             ]
         }
     },
+    computed : {
+        ...mapGetters(['isLoggedIn'])
+    },
     methods : {
-        logout(){
-            localStorage.setItem('token','')
-            this.$router.push('/login')
+        logout() {
+            this.$store.dispatch('logout')
+        .then(() => {
+            this.$router.push('/admin/login')
+        })
         }
     },
     created() {
-        this.token = localStorage.getItem('token')
         eventBus.$on('openDrawer',d => {
         this.drawer = d;  
         });

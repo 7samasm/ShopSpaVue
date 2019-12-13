@@ -36,13 +36,13 @@
 			}
 		},
 		methods : {
-			async login(){
-				const res = await UserService.login(this.username,this.password)
-				console.log(res)
-		        localStorage.setItem('token', res.token);
-        		localStorage.setItem('userId', res.userId);
-        		this.$router.push(this.$route.query.redirect || '/')
-			}
+	        login() {
+		        let username = this.username 
+		        let password = this.password
+		        this.$store.dispatch('login', { username, password })
+		       .then(() => this.$router.push('/'))
+		       .catch(err => console.log(err))
+		    }
 		},
 		created(){
 			if(!localStorage.getItem('token') === '') {
