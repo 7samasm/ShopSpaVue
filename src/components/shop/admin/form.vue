@@ -93,14 +93,14 @@
 						description,
 						imageUrl
 					}).then(res => {
-						console.log(res.status)
+						console.log(res.data)
 					})
 					this.clearInputs()
 				}
 			},
 			async editProduct(){
 				const title       = this.title
-				const price       = this.price
+				const price       = parseInt(this.price)
 				const description = this.description
 				const imageUrl    = this.imageUrl
 				await ShopService.editProduct({

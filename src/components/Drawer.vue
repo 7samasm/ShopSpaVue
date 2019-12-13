@@ -18,10 +18,13 @@
                         <v-list-tile-title>Hussam Abdallah</v-list-tile-title>
                     </v-list-tile-content>
 
-                    <router-link tag="div" to="/admin/login" class="v-list__tile__action">
-                        <v-icon @click="drawer = false" color="pink">exit_to_app</v-icon>
+                    <router-link v-if="!token"tag="div" to="/admin/login" class="v-list__tile__action">
+                        <v-icon  @click="drawer = false" color="pink">exit_to_app</v-icon>
                     </router-link>
-                    
+
+                    <v-list-tile-action v-else>
+                        <v-icon  @click="logout" color="pink">logout</v-icon>
+                    </v-list-tile-action>
                 </v-list-tile>
             </v-list>
 
@@ -53,25 +56,27 @@
 import {eventBus} from '../main';
 export default {
     data () {
-      return {
-        drawer: false,
-        items: [
-        { title: 'Home', icon: 'home', link : '/' },
-        { title: 'add product', icon: 'add' , link : '/admin/add-product' },
-        { title: 'Oclocks', icon: 'alarm' , link : '/oclocks' }
-        ]
-    }
-},
-    // watch : {
-    //   drawer(){
-    //     this.$store.commit('drawer',this.drawer)
-    //     console.log(this.$store.state.drawer)
-    //   }
-    // },
+        return {
+            drawer: false,
+            token : '',
+            items: [
+                { title: 'Home', icon: 'home', link : '/' },
+                { title: 'add product', icon: 'add' , link : '/admin/add-product' },
+                { title: 'Oclocks', icon: 'alarm' , link : '/oclocks' }
+            ]
+        }
+    },
+    methods : {
+        logout(){
+            localStorage.setItem('token','')
+            this.$router.push('/login')
+        }
+    },
     created() {
-      eventBus.$on('openDrawer',d => {
+        this.token = localStorage.getItem('token')
+        eventBus.$on('openDrawer',d => {
         this.drawer = d;  
-    });
-  }
+        });
+    }
 }
 </script>

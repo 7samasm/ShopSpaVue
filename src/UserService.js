@@ -29,4 +29,21 @@ export default class UserService {
 			}
 		})
 	}
+
+	static getProducts() {
+		return new Promise(async (resolve,reject) => {
+			try
+			{
+				const {data}  = await axios.get(
+					`${url}/products`,
+					{
+						headers : {'x-Auth' : localStorage.getItem('token')}
+					}
+				)
+				resolve(data)
+			} catch(err){
+				reject(err.message)
+			}
+		})
+	}
 }

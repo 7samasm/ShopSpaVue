@@ -41,7 +41,12 @@
 				console.log(res)
 		        localStorage.setItem('token', res.token);
         		localStorage.setItem('userId', res.userId);
-        		console.log(localStorage.getItem('token'))
+        		this.$router.push(this.$route.query.redirect || '/')
+			}
+		},
+		created(){
+			if(!localStorage.getItem('token') === '') {
+				this.$router.push('/')
 			}
 		}
 	}

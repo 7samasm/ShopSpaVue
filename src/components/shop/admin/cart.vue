@@ -57,6 +57,7 @@
 		},
 		created(){
 			this.restAllStates()
+			console.log(this.data)
 		}
 	}
 </script>

@@ -30,6 +30,7 @@
 
 <script>
 	import card from '../card'
+	import UserService from '../../../UserService'
 	import ShopService from '../../../ShopService'
 	import {mapActions} from 'vuex'
 	export default {
@@ -50,7 +51,7 @@
 					// delete product from database
 					await ShopService.deleteProduct({productId: id})
 					// update data to update ui
-					ShopService.getProducts().then(prods => {
+					UserService.getProducts().then(prods => {
 						this.prods = prods
 					})
 						
@@ -59,7 +60,7 @@
 			}
 		},
 		async created(){ 
-			this.prods = await ShopService.getProducts()
+			this.prods = await UserService.getProducts()
 		},
 		components: 
 		{
