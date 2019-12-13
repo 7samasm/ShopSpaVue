@@ -47,6 +47,7 @@
 		created(){
 			if(!localStorage.getItem('token') === '') {
 				this.$router.push('/')
+        		console.log(localStorage.getItem('token'))
 			}
 		}
 	}
