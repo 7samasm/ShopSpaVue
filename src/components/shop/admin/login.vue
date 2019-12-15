@@ -18,7 +18,10 @@
 						label="password"
 						appendIcon="keyboard"
 						color="purple"></v-text-field>
-					<v-btn @click="login" outline block color="purple" class="ml-0">login</v-btn>					
+					<v-btn @click="login" outline  color="purple" class="ml-0">login</v-btn>
+					<router-link to="/admin/register" class="right pt-2">
+						<span>sign up</span>
+					</router-link>					
 				</v-form>
 		<!-- 	</v-card-text>
 			</v-card> -->
@@ -45,7 +48,7 @@
 		    }
 		},
 		created(){
-			if(!localStorage.getItem('token') === '') {
+			if(localStorage.getItem('token')) {
 				this.$router.push('/')
         		console.log(localStorage.getItem('token'))
 			}

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import register from './views/admin/register.vue';
 import login from './views/admin/login.vue';
 import Home from './views/Home'
 import productDetails from './views/product-details'
@@ -14,6 +15,11 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: '/admin/register',
+      name: 'register',
+      component: register
+    },  
     {
       path: '/admin/login',
       name: 'Login',

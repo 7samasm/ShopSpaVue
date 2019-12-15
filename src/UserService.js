@@ -30,6 +30,19 @@ export default class UserService {
 		})
 	}
 
+	static signUp(name,email,password) {
+		return new Promise(async (resolve,reject) => {
+			try {
+				const {data} = await axios.post(`${url}/signup`,{name,email,password})
+				resolve(data)
+			} catch(e) {
+				// statements
+				reject(e.message)
+			}
+		})
+	}
+
+
 	static getProducts() {
 		return new Promise(async (resolve,reject) => {
 			try
