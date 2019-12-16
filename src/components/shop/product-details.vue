@@ -28,7 +28,7 @@
 <script>
 	import ShopService from '../../ShopService'
 	import {eventBus} from '../../main';
-	import {mapActions} from 'vuex'
+	import {mapMutations} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -39,8 +39,8 @@
 			}
 		},
 		methods : {
-			...mapActions([
-				'setTotalCart'
+			...mapMutations([
+				'set_cart'
 			]),
 			async saveToCart(id){
 				// disable btn and make it rotate
@@ -51,7 +51,7 @@
 						// insert product to cart
 						await ShopService.insertCartItem({productId : id})
 						// update total cart's items to update header badge num
-						this.setTotalCart()
+						this.$store.commit('set_cart',await ShopService.getCart())
 						// make btn work again
 						this.isSending = false
 					} catch(e) {

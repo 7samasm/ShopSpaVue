@@ -35,29 +35,9 @@ export default {
         drawer,
     },
     methods: {
-        ...mapActions([
-            'setTotalCart'
-        ]),
         openDrawer() {
             eventBus.$emit('openDrawer', true);
         }
-    },
-    watch : {
-    	isLoggedIn(){
-    		const t = this.totalCartItems
-    		if (t === 0 && this.isLoggedIn) {
-    			console.log('wacher call')
-    			this.setTotalCart()
-    		}
-
-    	}
-    },
-    async created() {
-    	if(this.isLoggedIn) {
-        	this.setTotalCart()
-    	}
-        console.log('%c header created', 'color:green')
-
     }
 }
 </script>

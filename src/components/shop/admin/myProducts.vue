@@ -2,7 +2,7 @@
     <v-layout row wrap>
 	    <v-flex 
 	    	xs6 md2
-			v-for="(prod,key) in prods"
+			v-for="(prod,key) in myProducts"
 			:key="key">
 				<card :product="prod">
 					<!-- slot to inject to cards -->
@@ -32,16 +32,16 @@
 	import card from '../card'
 	import UserService from '../../../UserService'
 	import ShopService from '../../../ShopService'
-	import {mapActions} from 'vuex'
+	import {mapActions,mapGetters} from 'vuex'
 	export default {
-		data() {
-			return {
-				prods : []
-			}
+		computed : {
+			...mapGetters([
+				'myProducts'
+			])
 		},
 		methods:{
 			...mapActions(['removeCartItem']),
-			deleteProduct(id,title){
+			deleteProduct(id,title) {
 				// if confirm dialog
 				if(confirm(`delete ${title} ?`)) {
 					// mock server dellay
@@ -51,16 +51,13 @@
 					// delete product from database
 					await ShopService.deleteProduct({productId: id})
 					// update data to update ui
-					UserService.getProducts().then(prods => {
-						this.prods = prods
+					UserService.getProducts().then(res => {
+						this.$store.commit('set_my_products',res)
 					})
 						
 					},500)
 				}
 			}
-		},
-		async created(){ 
-			this.prods = await UserService.getProducts()
 		},
 		components: 
 		{

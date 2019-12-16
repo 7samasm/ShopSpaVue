@@ -1,12 +1,12 @@
 <template>
-	<budget/>
+	<shop/>
 </template>
 
 <script>
-import budget from '../components/shop/shop.vue'
+import shop from '../components/shop/shop.vue'
 export default {
 	components: {
-		budget
+		shop
 	}
 }
 </script>

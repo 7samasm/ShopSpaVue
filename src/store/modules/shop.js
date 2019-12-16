@@ -10,8 +10,8 @@ const state =
 const getters =
 {
 	data            : state => state.data,
-	totalPrice      : state => state.totalPrice,
-	totalCartItems  : state => state.totalCartItems
+	// totalPrice      : state => state.totalPrice,
+	// totalCartItems  : state => state.totalCartItems
 }
 // helper funcs
 const getCart = async cb => {
@@ -29,11 +29,11 @@ const restAll = (state) => {
 const mutations =
 {
 	// setters
-	reSetTotal(state){
-		getCart(res => {
-			state.totalCartItems = res.totalItems
-		})
-	},
+	// reSetTotal(state){
+	// 	getCart(res => {
+	// 		state.totalCartItems = res.totalItems
+	// 	})
+	// },
 	restAllState(state) {
 		restAll(state)
 	}
@@ -43,9 +43,9 @@ const actions = {
     restAllStates({commit}){
     	commit('restAllState')
     },
-    setTotalCart({commit}) {
-        commit('reSetTotal')
-    },
+    // setTotalCart({commit}) {
+    //     commit('reSetTotal')
+    // },
     removeCartItem({commit},prodId){
 		//get cart data from callback
 		return getCart(res => {

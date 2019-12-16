@@ -1,24 +1,24 @@
 <template>
 	<v-layout row wrap>
 
-		<v-flex xs12 v-for="(cart,index) in data" :key="index">
+		<v-flex xs12 v-if="cart" v-for="(item,index) in cart" :key="index">
 			<v-card class="card-item">
 				<v-layout row wrap justify-center>
 					<v-flex xs10 md2>
 						<v-responsive><v-img src="../../../../public/d.jpg" alt="" class="avatar"></v-img></v-responsive>
 					</v-flex>
 					<v-flex xs10 md3>
-						<p>{{cart.productId.title}}</p>
+						<p>{{item.productId.title}}</p>
 					</v-flex>
 					<!-- <v-spacer></v-spacer> -->
 					<v-flex xs10 md3>
-						<p>{{cart.productId.price * cart.quantity}} SDG</p>
+						<p>{{item.productId.price * item.quantity}} SDG</p>
 					</v-flex>
 					<v-flex xs10  md3>
-						<p>quantity : {{cart.quantity}} pcs</p>
+						<p>quantity : {{item.quantity}} pcs</p>
 					</v-flex>
 					<v-flex xs10 md1>
-						<v-btn flat fab @click="removeCartItem(cart.productId._id)"><v-icon color="#FF5049">delete</v-icon></v-btn>
+						<v-btn flat fab @click="removeCartItem(item.productId._id)"><v-icon color="#FF5049">delete</v-icon></v-btn>
 					</v-flex>					
 				</v-layout>
 			</v-card>
@@ -44,20 +44,15 @@
 	export default {
 		computed : {
 			...mapGetters([
-				'data',
+				'cart',
 				'totalPrice',
 				'totalCartItems'
 			])
 		},
 		methods : {
 			...mapActions([
-				'removeCartItem',
-				'restAllStates'
+				'removeCartItem'
 			])
-		},
-		created(){
-			this.restAllStates()
-			console.log(this.data)
 		}
 	}
 </script>

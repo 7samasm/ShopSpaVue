@@ -44,6 +44,7 @@
 
 <script>
 	import ShopService  from '../../../ShopService';
+	import UserService  from '../../../UserService';
 	import {isEmpty} from 'lodash';
 	export default {
 		props : ['editable','productId'],
@@ -95,12 +96,15 @@
 					}).then(res => {
 						console.log(res.data)
 					})
+					UserService.getProducts().then(res => {
+						this.$store.commit('set_my_products',res)
+					})
 					this.clearInputs()
 				}
 			},
 			async editProduct(){
 				const title       = this.title
-				const price       = parseInt(this.price)
+				const price       = this.price
 				const description = this.description
 				const imageUrl    = this.imageUrl
 				await ShopService.editProduct({
@@ -108,6 +112,9 @@
 					title,price,description,imageUrl
 				})
 				this.clearInputs()
+				// rest vuex state
+				this.$store.commit('set_cart',await ShopService.getCart())
+				this.$store.commit('set_my_products',await UserService.getProducts())
 			}
 		},
 		async created(){

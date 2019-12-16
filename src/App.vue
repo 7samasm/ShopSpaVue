@@ -5,7 +5,7 @@
 
     <v-content>
 
-        <v-container grid-list-md>
+        <v-container grid-list-md class="mt-4">
             <router-view></router-view>
         </v-container>
       
@@ -15,10 +15,9 @@
 </template>
 
 <script>
-    // import {store} from './store/store'
-    import DataItemsService from './DataItemsService'
     import appHeader from './components/Header'
-
+    import ShopService from './ShopService';
+    import UserService from './UserService';
     export default 
     {
         name: 'App',
@@ -27,8 +26,12 @@
         {
             appHeader
         },
-        created(){
-            console.log('%c app created','color:red')
+        async created(){
+            const store = this.$store
+            if(store.getters.isLoggedIn){
+                store.commit('set_cart',await ShopService.getCart())
+                store.commit('set_my_products',await UserService.getProducts())
+            }
         }
     }
 </script>
