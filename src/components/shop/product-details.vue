@@ -33,7 +33,7 @@
 		data() {
 			return {
 				id   : this.$route.params.id,
-				prod : [],
+				prod : {},
 				itreation : {},
 				isSending : false
 			}
@@ -42,7 +42,7 @@
 			...mapMutations([
 				'set_cart'
 			]),
-			async saveToCart(id){
+			saveToCart(id){
 				// disable btn and make it rotate
 				this.isSending = true
 				// mock server dellay
@@ -62,13 +62,18 @@
 			}
 		},
 		async created(){
-			this.prod = await ShopService.getProductById(this.id)
-			this.itreation = {
-				title : this.prod.title,
-				description : this.prod.description,
-				price : this.prod.price
-			} 
-			console.log(this.prod)
+			const res = await ShopService.getProductById(this.id)
+			if(res){
+				this.prod = res
+				this.itreation = {
+					title       : this.prod.title,
+					description : this.prod.description,
+					price       : this.prod.price
+				} 	
+			} else {
+				this.$router.push('/')
+			}
+			console.log(this.itreation)
 		}
 	}
 </script>

@@ -120,8 +120,15 @@
 		async created(){
 
 			if(this.editable){
-				this.product = await ShopService.getProductById(this.productId)
-				this.editMode()
+				try {
+					const res  = await UserService.getProduct(this.productId)
+					if(res) {
+						this.product = res
+						this.editMode()	
+					} else {
+						this.$router.push('/')
+					}
+				} catch(e) {}
 			}
 		},
 		mounted(){

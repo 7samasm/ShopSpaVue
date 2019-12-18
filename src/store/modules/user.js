@@ -1,4 +1,4 @@
-// import axios from 'axios'
+import axios from 'axios'
 import UserService from '../../UserService';
 import ShopService from '../../ShopService';
 
@@ -11,6 +11,7 @@ const state = {
 };
 const getters = {
     isLoggedIn      : state => !!state.token,
+    token           : state => state.token,
     authStatus      : state => state.status,
     myProducts      : state => state.myProducts   || {},
     cart            : state => state.cart.products   || [],
@@ -47,19 +48,21 @@ const actions = {
         return new Promise(async(resolve, reject) => {
         	try {
 	            commit('auth_request')
-	            const resp      = await UserService.login(user.username, user.password)
+	            const resp   = await UserService.login(user.username, user.password)
 	            const token  = resp.token
 	            const userId = resp.userId
 	            localStorage.setItem('token', token)
-	            // axios.defaults.headers.common['x-Auth'] = token
-	            commit('auth_success', {token,userId})
+                commit('auth_success', {token,userId})
+	            axios.defaults.headers.common['x-Auth'] = token
                 commit('set_my_products' , await UserService.getProducts())
                 commit('set_cart',await ShopService.getCart())
 	            resolve(resp)
         	} catch(e) {
 	            commit('auth_error')
 	            localStorage.removeItem('token')
-            	reject(e.message)
+                const err = {...e}
+                let message = err.response.data.error === 'Wrong password!' ? 'Wrong password!' : "A user with this email not be found.";
+            	reject({showDialog : true , message})
         	}
         })
     },
@@ -67,7 +70,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit('logout')
             localStorage.removeItem('token')
-            // delete axios.defaults.headers.common['x-Auth']
+            delete axios.defaults.headers.common['x-Auth']
             resolve()
         })
     },

@@ -24,8 +24,7 @@ export default class UserService {
 				const {data} = await axios.post(`${url}/login`,{name,password})
 				resolve(data)
 			} catch(e) {
-				// statements
-				reject(e.message)
+				reject(e)
 			}
 		})
 	}
@@ -47,16 +46,24 @@ export default class UserService {
 		return new Promise(async (resolve,reject) => {
 			try
 			{
-				const {data}  = await axios.get(
-					`${url}/products`,
-					{
-						headers : {'x-Auth' : localStorage.getItem('token')}
-					}
-				)
+				const {data}  = await axios.get(`${url}/products`)
 				resolve(data)
 			} catch(err){
 				reject(err.message)
 			}
 		})
 	}
+
+	static getProduct(id) {
+		return new Promise(async (resolve,reject) => {
+			try
+			{
+				const {data}  = await axios.get(`${url}/products/${id}`)
+				resolve(data)
+			} catch(err){
+				reject(err.message)
+			}
+		})
+	}
+
 }

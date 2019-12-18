@@ -32,40 +32,20 @@ export default class ShopService {
 	}
 
 	static insertProduct(product){
-		return axios.post(
-		   `${url}/admin/add-product`,
-			product,
-			{
-				headers : {'x-Auth' : localStorage.getItem('token')}
-			}
-		)
+		return axios.post(`${url}/admin/add-product`,product)
 	}
 	static deleteProduct(productId){
-		return axios.post(
-		   `${url}/admin/delete-product`,
-			productId,
-			{
-				headers : {'x-Auth' : localStorage.getItem('token')}
-			}		
-		)
+		return axios.post(`${url}/admin/delete-product`,productId)
 	}
 	static editProduct(productId){
-		return axios.post(
-			`${url}/admin/edit-product`,
-			productId,
-			{
-				headers : {'x-Auth' : localStorage.getItem('token')}
-			}			
-		)
+		return axios.post(`${url}/admin/edit-product`,productId)
 	}	
 	// 2 -> cart
 	static getCart(){
 		return new Promise(async (resolve,reject) => {
 			try
 			{
-				const {data}  = await axios.get(`${url}/cart`,{
-					headers : {'x-Auth' : localStorage.getItem('token')}
-				})
+				const {data}  = await axios.get(`${url}/cart`)
 				resolve(data)
 			} catch(err){
 				reject(err.message)
@@ -76,13 +56,7 @@ export default class ShopService {
 	static insertCartItem(product){
 		return new Promise(async (resolve,reject) => {
 			try {
-				const {data} = await axios.post(
-					`${url}/cart`,
-					product,
-					{
-						headers : {'x-Auth' : localStorage.getItem('token')}
-					}
-				)
+				const {data} = await axios.post(`${url}/cart`,product)
 				resolve(data)
 			} catch(e) {
 				reject(e)
@@ -92,12 +66,6 @@ export default class ShopService {
 
 	// cart-delete-item
 	static deleteCartItem(product) {
-		return axios.post(
-		   `${url}/cart-delete-item`,
-			product,
-			{
-				headers : {'x-Auth' : localStorage.getItem('token')}
-			}
-		)
+		return axios.post(`${url}/cart-delete-item`,product)
 	}
 }

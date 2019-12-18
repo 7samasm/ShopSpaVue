@@ -1,60 +1,57 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import register from './views/admin/register.vue';
-import login from './views/admin/login.vue';
-import Home from './views/Home'
-import productDetails from './views/product-details'
-import myProducts from './views/admin/myProducts'
-import addProduct from './views/admin/addProduct'
-import editProduct from './views/admin/editProduct';
-import cart from './views/admin/cart'
+import {store} from './store/store'
 
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
+mode: 'history',
+base: process.env.BASE_URL,
+routes: [
     {
       path: '/admin/register',
       name: 'register',
-      component: register
+      component: () => import(/* webpackChunkName: "about" */ './views/admin/register')
     },  
     {
       path: '/admin/login',
       name: 'Login',
-      component: login
+      component: () => import(/* webpackChunkName: "about" */ './views/admin/login')
     },
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: () => import(/* webpackChunkName: "about" */ './views/Home')
     },
     {
       path: '/product-details/:id',
       name: 'Product Details',
-      component: productDetails
+      component: () => import(/* webpackChunkName: "about" */ './views/product-details')
     },
     //admin
     {
       path: '/admin/my-product',
       name: 'my products',
-      component: myProducts
+      meta: {requiresAuth : true},
+      component: () => import(/* webpackChunkName: "about" */ './views/admin/myProducts')
     },    
     {
       path: '/admin/add-product',
       name: 'Add product',
-      component: addProduct
+      meta: {requiresAuth : true},
+      component: () => import(/* webpackChunkName: "about" */ './views/admin/addProduct')
     },
     {
       path: '/admin/edit-product/:id',
       name: 'Update product',
-      component: editProduct
+      meta: {requiresAuth : true},
+      component: () => import(/* webpackChunkName: "about" */ './views/admin/editProduct')
     },    
     {
       path: '/admin/cart',
       name: 'Cart',
-      component: cart
+      meta: {requiresAuth : true},
+      component: () => import(/* webpackChunkName: "about" */ './views/admin/cart')
     },    
     {
       path: '/oclocks',
@@ -70,14 +67,14 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
-      next()
-      return
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (store.getters.isLoggedIn) {
+            next()
+            return
+        }
+        next('/admin/login')
+    } else {
+        next()
     }
-    next('/login') 
-  } else {
-    next() 
-  }
 })
 export default router
