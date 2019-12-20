@@ -18,10 +18,10 @@ export default class UserService {
 		})
 	}
 
-	static login(name,password) {
+	static login(email,password) {
 		return new Promise(async (resolve,reject) => {
 			try {
-				const {data} = await axios.post(`${url}/login`,{name,password})
+				const {data} = await axios.post(`${url}/login`,{email,password})
 				resolve(data)
 			} catch(e) {
 				reject(e)
@@ -47,6 +47,18 @@ export default class UserService {
 			try
 			{
 				const {data}  = await axios.get(`${url}/products`)
+				resolve(data)
+			} catch(err){
+				reject(err.message)
+			}
+		})
+	}
+
+	static userInfos() {
+		return new Promise(async (resolve,reject) => {
+			try
+			{
+				const {data}  = await axios.get(`${url}/user-info`)
 				resolve(data)
 			} catch(err){
 				reject(err.message)

@@ -31,10 +31,6 @@
 </script>
 
 <style scoped>
-/*	.card-img {
-		padding-top: 20px;
-		position: relative;
-	}*/
 	.card-img img {
 	    width: 70%;
 	    margin: 0 auto;
@@ -46,10 +42,6 @@
 		padding-bottom: 2rem;
 		color: #888
 	}
-/*	.price  {
-	    position: relative;
-	    text-align: center;
-	}*/
 	.price  {
 	    background: #ca33e4;
 	    color: #fff;

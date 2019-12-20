@@ -51,7 +51,7 @@
 					// delete product from database
 					await ShopService.deleteProduct({productId: id})
 					// update data to update ui
-					UserService.getProducts().then(res => {
+					UserService.userInfos().then(res => {
 						this.$store.commit('set_my_products',res)
 					})
 						

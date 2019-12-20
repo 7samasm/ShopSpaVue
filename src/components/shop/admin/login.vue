@@ -22,10 +22,10 @@
 				<v-form>
 					<v-text-field
 						solo
-						:rules="nameRules"
+						:rules="emailRules"
 						ref="mm"
-						v-model="username"
-						label="username"
+						v-model="email"
+						label="email"
 						appendIcon="person"
 						color="purple"></v-text-field>
 					<v-text-field 
@@ -49,18 +49,19 @@
 
 <script>
 	import UserService from '../../../UserService'
-	import { required, minLength , email,sameAs} from 'vuelidate/lib/validators'
+	import { required , email} from 'vuelidate/lib/validators'
 
 	export default {
 		data(){
 			return {
-				username : '',
+				email : '',
 				password : '',
 				dialog   : false,
 				dialogText : '',
-		        nameRules: [
-		        	( ) => this.$v.username.required|| 'Name is required'
-		      	],
+				emailRules: [
+					( ) => this.$v.email.required || 'E-mail is required',
+					( ) => this.$v.email.email || 'E-mail must be valid',
+				],
 		        passRules: [
 		        	( ) => this.$v.password.required || 'password is required'
 	        	]				
@@ -72,8 +73,9 @@
 			}
 		},
 		validations: {
-			username: {
+			email: {
 			   required,
+			   email
 			},
   			password : {
   				required,
@@ -82,12 +84,12 @@
 		methods : {
 	        async login(){
 	        	try {
-			        const username = this.username 
+			        const email = this.email 
 			        const password = this.password
-			        await this.$store.dispatch('login', { username, password })
+			        await this.$store.dispatch('login', { email, password })
 			        this.$router.push('/admin/my-product')
 	        	} catch(rej) {
-		       		this.dialog = rej.showDialog
+		       		this.dialog     = rej.showDialog
 		       		this.dialogText = rej.message
 	        	}
 		    }

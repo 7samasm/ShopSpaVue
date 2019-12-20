@@ -15,25 +15,16 @@
 </template>
 
 <script>
-    import axios from 'axios'
     import appHeader from './components/Header'
-    import ShopService from './ShopService';
-    import UserService from './UserService';
     export default 
     {
         name: 'App',
-        // store,
         components: 
         {
             appHeader
         },
-        async created(){
-            const store = this.$store
-            if(store.getters.isLoggedIn){
-                axios.defaults.headers.common['x-Auth'] = store.getters.token
-                store.commit('set_cart',await ShopService.getCart())
-                store.commit('set_my_products',await UserService.getProducts())
-            }
+        created(){
+            this.$store.dispatch('resetUCP')
         }
     }
 </script>

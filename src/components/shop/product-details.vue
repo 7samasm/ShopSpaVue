@@ -21,7 +21,7 @@
 				</v-card>
 		    </v-flex>
         </v-layout>
-        <v-btn fab @click="saveToCart(id)" :loading="isSending"><v-icon color="pink">add_shopping_cart</v-icon></v-btn>
+        <v-btn v-if="$store.getters.isLoggedIn" fab @click="saveToCart(id)" :loading="isSending"><v-icon color="pink">add_shopping_cart</v-icon></v-btn>
     </div>
 </template>
 

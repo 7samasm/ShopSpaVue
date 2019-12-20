@@ -15,7 +15,7 @@
                     </v-list-tile-avatar>
 
                     <v-list-tile-content>
-                        <v-list-tile-title>Hussam Abdallah</v-list-tile-title>
+                        <v-list-tile-title>{{user.name}}</v-list-tile-title>
                     </v-list-tile-content>
 
                     <router-link v-if="!isLoggedIn"tag="div" to="/admin/login" class="v-list__tile__action">
@@ -67,7 +67,7 @@ export default {
         }
     },
     computed : {
-        ...mapGetters(['isLoggedIn'])
+        ...mapGetters(['isLoggedIn','user'])
     },
     methods : {
         logout() {

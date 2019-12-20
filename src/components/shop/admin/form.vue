@@ -10,8 +10,8 @@
 	            </v-card-text>
 	            <v-card-actions>
 	                <v-spacer></v-spacer>
-	                <v-btn flat fab small color="red" text @click="$router.push('/admin/my-product')">{{editable ? 'OK' : 'NO'}}</v-btn>
-	                <v-btn flat fab small :color="baseColor" text v-if="!this.editable" @click="addAnthor">Ok</v-btn>
+	                <v-btn small class="ma-2" outline color="red" text @click="$router.push('/admin/my-product')">{{editable ? 'OK' : 'NO'}}</v-btn>
+	                <v-btn small class="ma-2 white--text"  :color="baseColor" text v-if="!this.editable" @click="addAnthor">Ok</v-btn>
 	            </v-card-actions>
 	        </v-card>
 	    </v-dialog>	
@@ -121,8 +121,7 @@
 					const description = this.description
 					const imageUrl    = this.imageUrl
 					const resp     = await ShopService.insertProduct({title,price,description,imageUrl})
-					const prods    = await UserService.getProducts()
-					this.$store.commit('set_my_products',prods)
+					this.$store.commit('set_my_products',await UserService.userInfos())
 					this.dialogText = `${resp.data.title} hass been added successflly do you want to add anthor product ?`
 					this.dialog = true
 				} catch(e) {
@@ -140,7 +139,7 @@
 				})
 				// rest vuex state
 				this.$store.commit('set_cart',await ShopService.getCart())
-				this.$store.commit('set_my_products',await UserService.getProducts())
+				this.$store.commit('set_my_products',await UserService.userInfos())
 				this.dialogText = `${res.data.title} has been updated successflly!`
 				this.dialog = true
 			}

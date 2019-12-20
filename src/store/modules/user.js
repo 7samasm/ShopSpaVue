@@ -5,11 +5,12 @@ import ShopService from '../../ShopService';
 const state = {
     status: '',
     token : localStorage.getItem('token') || '',
-    userId: '',
+    user  : {},
     cart  : {},
     myProducts : []
 };
 const getters = {
+    user            : state => state.user,
     isLoggedIn      : state => !!state.token,
     token           : state => state.token,
     authStatus      : state => state.status,
@@ -19,43 +20,47 @@ const getters = {
     totalCartItems  : state => state.cart.totalItems ||0
 }
 const mutations = {
+    set_user(state,{user}){
+        state.user = user
+    },
     set_cart(state,cart){
         state.cart = cart
     },
-    set_my_products(state,prods){
-        state.myProducts = prods
+    set_my_products(state,{products}){
+        state.myProducts = products
     },    
     auth_request(state) {
         state.status = 'loading'
     },
-    auth_success(state, {token, userId}) {
+    auth_success(state, token) {
         state.status = 'success'
         state.token  = token
-        state.userId = userId
     },
     auth_error(state) {
         state.status = 'error'
     },
     logout(state) {
-        state.status = ''
+        state.status= ''
         state.token = '',
+        state.user  = {},
         state.cart  ={},
         state.myProducts = []
     }
 }
 const actions = {
-    login({ commit }, user) {
+    login({ commit ,dispatch }, {email,password}) {
         return new Promise(async(resolve, reject) => {
         	try {
 	            commit('auth_request')
-	            const resp   = await UserService.login(user.username, user.password)
+                // request login api
+	            const resp   = await UserService.login(email,password)
 	            const token  = resp.token
-	            const userId = resp.userId
+                //set localstorge token value
 	            localStorage.setItem('token', token)
-                commit('auth_success', {token,userId})
-	            axios.defaults.headers.common['x-Auth'] = token
-                commit('set_my_products' , await UserService.getProducts())
-                commit('set_cart',await ShopService.getCart())
+                // set token state
+                commit('auth_success', token)
+                // reset user ,cart and products
+                dispatch('resetUCP')
 	            resolve(resp)
         	} catch(e) {
 	            commit('auth_error')
@@ -92,6 +97,16 @@ const actions = {
             isDeletedFromCart = false
         }
         return isDeletedFromCart
+    },
+    async resetUCP({commit,getters}){
+        if (!getters.isLoggedIn) {return}
+        // set default heder requst Auth to token val
+        axios.defaults.headers.common['x-Auth'] = getters.token
+        // set and cart and my producs state
+        const info = await UserService.userInfos()
+        commit('set_user' , info)
+        commit('set_my_products' , info)
+        commit('set_cart',await ShopService.getCart())
     }
 }
 export default {
