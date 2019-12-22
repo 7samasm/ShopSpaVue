@@ -1,7 +1,8 @@
 import  axios from 'axios'
 import  concat from 'lodash/fp/concat'
 
-const url = 'http://localhost:3001'
+
+const url = '/api'
 
 export default class ShopService {
 	// 1 -> products

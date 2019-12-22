@@ -1,6 +1,6 @@
 import  axios from 'axios'
 
-const url = 'http://localhost:3001/admin'
+const url = '/api/admin'
 
 export default class UserService {
 
@@ -17,7 +17,6 @@ export default class UserService {
 			}
 		})
 	}
-
 	static login(email,password) {
 		return new Promise(async (resolve,reject) => {
 			try {

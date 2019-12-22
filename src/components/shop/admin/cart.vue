@@ -73,8 +73,7 @@
 			...mapActions([
 				'removeCartItem'
 			])
-		},
-		created(){console.log(this.binding);console.log(this.$vuetify.breakpoint)}
+		}
 	}
 </script>
 
