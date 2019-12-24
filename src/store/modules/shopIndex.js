@@ -7,26 +7,19 @@ const state =
 
 const getters =
 {
-	data            : state => state.data,
+	data  : state => state.data,
 }
-// helper funcs
-const setState = async cb => {
-	const res = await ShopService.getProducts()
-	cb(res)
-}
+
 const mutations =
 {
-	// setters
-	restData(state){
-		setState(res => {
-			state.data = res
-		})
+	SET_DATA(state,data){
+		state.data = data
 	}
 }
 
 const actions = {
-    getIndex({commit}){
-    	commit('restData')
+    setIndex({commit}){
+    	commit('SET_DATA')
     }
 };
 

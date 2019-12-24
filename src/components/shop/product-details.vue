@@ -42,23 +42,19 @@
 			...mapMutations([
 				'set_cart'
 			]),
-			saveToCart(id){
+			async saveToCart(id){
 				// disable btn and make it rotate
 				this.isSending = true
-				// mock server dellay
-				setTimeout(async()=> {
-					try {
-						// insert product to cart
-						await ShopService.insertCartItem({productId : id})
-						// update total cart's items to update header badge num
-						this.$store.commit('set_cart',await ShopService.getCart())
-						// make btn work again
-						this.isSending = false
-					} catch(e) {
-						console.log(e.message);
-					}
-
-				},350)
+				try {
+					// insert product to cart
+					await ShopService.insertCartItem({productId : id})
+					// update total cart's items to update header badge num
+					this.$store.commit('set_cart',await ShopService.getCart())
+					// make btn work again
+					this.isSending = false
+				} catch(e) {
+					console.log(e.message);
+				}
 			}
 		},
 		async created(){

@@ -9,7 +9,7 @@
 					<v-layout row>
 
 						<v-flex xs6>
-							<v-btn flat fab small @click="deleteProduct(prod._id,prod.title)">
+							<v-btn flat fab small @click="deleteProduct({id :prod._id, title: prod.title})">
 								<v-icon color="#FF5049">delete</v-icon>
 							</v-btn>
 						</v-flex>
@@ -32,7 +32,7 @@
 	import card from '../card'
 	import UserService from '../../../UserService'
 	import ShopService from '../../../ShopService'
-	import {mapActions,mapGetters} from 'vuex'
+	import {mapGetters,mapActions} from 'vuex'
 	export default {
 		computed : {
 			...mapGetters([
@@ -40,24 +40,9 @@
 			])
 		},
 		methods:{
-			...mapActions(['removeCartItem']),
-			deleteProduct(id,title) {
-				// if confirm dialog
-				if(confirm(`delete ${title} ?`)) {
-					// mock server dellay
-					setTimeout(async ()=>{
-					//remove it from cart
-					const isDeletedFromCart = await this.removeCartItem(id)
-					// delete product from database
-					await ShopService.deleteProduct({productId: id})
-					// update data to update ui
-					UserService.userInfos().then(res => {
-						this.$store.commit('set_my_products',res)
-					})
-						
-					},500)
-				}
-			}
+			...mapActions([
+				'deleteProduct'
+			])
 		},
 		components: 
 		{

@@ -65,7 +65,7 @@
 			},
 			isMobile(){
 				let val = false
-				if (this.$vuetify.breakpoint.xs) {val = true}
+				if (this.$vuetify.breakpoint.xs) val = true
 				return val
 			}
 		},

@@ -37,6 +37,9 @@
 					type="number"
 					appendIcon="money"
 					:color="baseColor"></v-text-field>
+			    <v-autocomplete
+			      label="Components"
+			      :items="components"></v-autocomplete>
 				<v-btn
 					outline
 					v-if="editable"
@@ -75,6 +78,9 @@
 				price       : '',
 				description : '',
 				imageUrl    : 'd.jpg',
+				components: [
+          			'Autocompletes', 'Comboboxes', 'Forms', 'Inputs', 'Overflow Buttons', 'Selects', 'Selection Controls', 'Sliders', 'Textareas', 'Text Fields',
+        		],
 				product     : {},
 				dialog   : false,
 				dialogText : '',
@@ -105,22 +111,13 @@
 				this.description = obj.description
 				this.price       = obj.price
 			},
-			clearInputs(){
-				// clear inputs
-				this.title = ''
-				this.price = ''
-				this.description = ''
-				this.$refs.title.focus();
-				// add foucs to title
-				// this.$refs.title.focus();
-			},
 			async addProduct(){
 				try {
 					const title       = this.title
 					const price       = this.price
 					const description = this.description
 					const imageUrl    = this.imageUrl
-					const resp     = await ShopService.insertProduct({title,price,description,imageUrl})
+					const resp  = await ShopService.insertProduct({title,price,description,imageUrl})
 					this.$store.commit('set_my_products',await UserService.userInfos())
 					this.dialogText = `${resp.data.title} hass been added successflly do you want to add anthor product ?`
 					this.dialog = true

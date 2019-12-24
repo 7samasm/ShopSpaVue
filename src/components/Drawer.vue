@@ -61,8 +61,8 @@ export default {
             drawer: false,
             items: [
                 { title: 'Home', icon: 'home', link : '/' },
-                { title: 'add product', icon: 'add' , link : '/admin/add-product' },
-                { title: 'Oclocks', icon: 'alarm' , link : '/oclocks' }
+                { title: 'add product', icon: 'add_circle_outline' , link : '/admin/add-product' },
+                { title: 'My Products', icon: 'work' , link : '/admin/my-product' }
             ]
         }
     },

@@ -1,6 +1,6 @@
-import axios from 'axios'
-import UserService from '../../UserService';
 import ShopService from '../../ShopService';
+import UserService from '../../UserService';
+import auth        from './user/auth'
 
 const state = {
     status: '',
@@ -48,64 +48,18 @@ const mutations = {
     }
 }
 const actions = {
-    login({ commit ,dispatch }, {email,password}) {
-        return new Promise(async(resolve, reject) => {
-        	try {
-	            commit('auth_request')
-                // request login api
-	            const resp   = await UserService.login(email,password)
-	            const token  = resp.token
-                //set localstorge token value
-	            localStorage.setItem('token', token)
-                // set token state
-                commit('auth_success', token)
-                // reset user ,cart and products
-                dispatch('resetUCP')
-	            resolve(resp)
-        	} catch(e) {
-	            commit('auth_error')
-	            localStorage.removeItem('token')
-                const err = {...e}
-                let message = err.response.data.error === 'Wrong password!' ? 'Wrong password!' : "A user with this email not be found.";
-            	reject({showDialog : true , message})
-        	}
-        })
-    },
-    logout({ commit }) {
-        return new Promise((resolve, reject) => {
-            commit('logout')
-            localStorage.removeItem('token')
-            delete axios.defaults.headers.common['x-Auth']
-            resolve()
-        })
-    },
-    async removeCartItem({commit,state},prodId){
-        let isDeletedFromCart 
-        // check if prod pram id (item) its not on cart
-        const indexOfProduct = state.cart.products.findIndex(cp => {
-            // test
-            return cp.productId._id.toString() === prodId.toString();
-        });
-        // if item in the cart
-        if (indexOfProduct >= 0) {
-            // remove it
-            await ShopService.deleteCartItem({productId : prodId})
-            // then rest state
+    ...auth,
+    async deleteProduct({commit,dispatch},payload){
+        const {id,title} = payload
+        if(confirm(`delete ${title} ?`)) {
+            // delete product from database
+            await ShopService.deleteProduct({productId: id})
             commit('set_cart',await ShopService.getCart())
-            isDeletedFromCart = true
-        } else {
-            isDeletedFromCart = false
+            commit('set_my_products' , await UserService.userInfos())
         }
-        return isDeletedFromCart
     },
-    async resetUCP({commit,getters}){
-        if (!getters.isLoggedIn) {return}
-        // set default heder requst Auth to token val
-        axios.defaults.headers.common['x-Auth'] = getters.token
-        // set and cart and my producs state
-        const info = await UserService.userInfos()
-        commit('set_user' , info)
-        commit('set_my_products' , info)
+    async removeCartItem({commit},prodId){
+        await ShopService.deleteCartItem({productId : prodId})
         commit('set_cart',await ShopService.getCart())
     }
 }
