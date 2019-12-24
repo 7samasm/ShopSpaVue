@@ -38,8 +38,11 @@
 					appendIcon="money"
 					:color="baseColor"></v-text-field>
 			    <v-autocomplete
-			      label="Components"
-			      :items="components"></v-autocomplete>
+			    	:rules="sectRules" 
+					label="Section"
+					v-model="sectionId"
+					@change="log"
+					:items="sectionsNames"></v-autocomplete>
 				<v-btn
 					outline
 					v-if="editable"
@@ -68,6 +71,7 @@
 <script>
 	import ShopService  from '../../../ShopService';
 	import UserService  from '../../../UserService';
+	import SectionsService  from '../../../SectionsService';
 	import { required} from 'vuelidate/lib/validators'
 	export default {
 		props : ['editable','productId'],
@@ -78,15 +82,16 @@
 				price       : '',
 				description : '',
 				imageUrl    : 'd.jpg',
-				components: [
-          			'Autocompletes', 'Comboboxes', 'Forms', 'Inputs', 'Overflow Buttons', 'Selects', 'Selection Controls', 'Sliders', 'Textareas', 'Text Fields',
-        		],
+				sectionId   : '',
+
+				sections: [],
 				product     : {},
 				dialog   : false,
 				dialogText : '',
 		        titleRules: [() => this.$v.title.required|| 'title is required'],
 				decRules  : [() => this.$v.description.required || 'description is required'],
-		        priceRules: [() => this.$v.price.required || 'price is required']				
+		        priceRules: [() => this.$v.price.required || 'price is required'],
+		        sectRules : [() => this.$v.sectionId.required || 'section is required']				
 			}
 		},
 		computed : {
@@ -96,9 +101,18 @@
 			},
 			isValidated() {
 				return this.$v.$invalid
-			}			
+			},
+			sectionsNames(){
+				return this.sections.map(section => {
+					return {
+						text  : section.name,
+						value : section._id
+					}
+				})
+			}		
 		},
 		methods : {
+			log(){console.log(this.sectionId)},
 			addAnthor(){
 				this.$refs.form.reset()
 				this.$refs.title.focus();
@@ -117,7 +131,8 @@
 					const price       = this.price
 					const description = this.description
 					const imageUrl    = this.imageUrl
-					const resp  = await ShopService.insertProduct({title,price,description,imageUrl})
+					const sectionId   = this.sectionId
+					const resp  = await ShopService.insertProduct({title,price,description,imageUrl,sectionId})
 					this.$store.commit('set_my_products',await UserService.userInfos())
 					this.dialogText = `${resp.data.title} hass been added successflly do you want to add anthor product ?`
 					this.dialog = true
@@ -144,10 +159,12 @@
 		validations: {
 			title      : {required},
 			description: {required},
-  			price      : {required} 			
+  			price      : {required},
+  			sectionId  : {required}			
 		},		
 		async created(){
-
+			this.sections = await SectionsService.getSections()
+			console.log(this.sectionsNames)
 			if(this.editable){
 				try {
 					const res  = await UserService.getProduct(this.productId)
