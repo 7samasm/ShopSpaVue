@@ -43,7 +43,7 @@ const resetUCP = async function({commit,getters}){
     const info = await UserService.userInfos()
     commit('set_user' , info)
     commit('set_my_products' , info)
-    commit('set_cart',await ShopService.getCart())
+    commit('set_cart',info)
 };
 
 

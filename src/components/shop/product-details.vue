@@ -27,6 +27,7 @@
 
 <script>
 	import ShopService from '../../ShopService'
+	import UserService from '../../UserService'
 	import {eventBus} from '../../main';
 	import {mapMutations} from 'vuex'
 	export default {
@@ -49,7 +50,7 @@
 					// insert product to cart
 					await ShopService.insertCartItem({productId : id})
 					// update total cart's items to update header badge num
-					this.$store.commit('set_cart',await ShopService.getCart())
+					this.$store.commit('set_cart',await UserService.userInfos())
 					// make btn work again
 					this.isSending = false
 				} catch(e) {

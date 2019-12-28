@@ -8,11 +8,11 @@
 						<v-responsive><v-img src="../../../../public/d.jpg" alt="" class="avatar"></v-img></v-responsive>
 					</v-flex>
 					<v-flex xs12 md3>
-						<p>{{item.productId.title}}</p>
+						<p>{{item.title}}</p>
 					</v-flex>
 					<!-- <v-spacer></v-spacer> -->
 					<v-flex xs12 md3>
-						<p>{{item.productId.price * item.quantity}} SDG</p>
+						<p>{{item.price * item.quantity}} SDG</p>
 					</v-flex>
 					<v-flex xs12  md3>
 						<p>quantity : {{item.quantity}} pcs</p>
@@ -24,7 +24,7 @@
 						:outline="isMobile" 
 						:flat="!isMobile" 
 						:fab="!isMobile" 
-						@click="removeCartItem(item.productId._id)">
+						@click="removeCartItem(item._id)">
 							<v-icon color="#FF5049" :small="isMobile ? true : false">delete</v-icon>
 						</v-btn>
 					</v-flex>					

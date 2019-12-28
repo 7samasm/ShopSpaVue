@@ -23,7 +23,7 @@ const mutations = {
     set_user(state,{user}){
         state.user = user
     },
-    set_cart(state,cart){
+    set_cart(state,{cart}){
         state.cart = cart
     },
     set_my_products(state,{products}){
@@ -54,13 +54,14 @@ const actions = {
         if(confirm(`delete ${title} ?`)) {
             // delete product from database
             await ShopService.deleteProduct({productId: id})
-            commit('set_cart',await ShopService.getCart())
-            commit('set_my_products' , await UserService.userInfos())
+            const info = await UserService.userInfos()
+            commit('set_cart',info)
+            commit('set_my_products',info)
         }
     },
     async removeCartItem({commit},prodId){
         await ShopService.deleteCartItem({productId : prodId})
-        commit('set_cart',await ShopService.getCart())
+        commit('set_cart',await UserService.userInfos())
     }
 }
 export default {

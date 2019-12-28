@@ -40,7 +40,7 @@
 			    <v-autocomplete
 			    	:rules="sectRules" 
 					label="Section"
-					v-model="sectionId"
+					v-model="section"
 					@change="log"
 					:items="sectionsNames"></v-autocomplete>
 				<v-btn
@@ -82,7 +82,7 @@
 				price       : '',
 				description : '',
 				imageUrl    : 'd.jpg',
-				sectionId   : '',
+				section     : '',
 
 				sections: [],
 				product     : {},
@@ -91,7 +91,7 @@
 		        titleRules: [() => this.$v.title.required|| 'title is required'],
 				decRules  : [() => this.$v.description.required || 'description is required'],
 		        priceRules: [() => this.$v.price.required || 'price is required'],
-		        sectRules : [() => this.$v.sectionId.required || 'section is required']				
+		        sectRules : [() => this.$v.section.required || 'section is required']				
 			}
 		},
 		computed : {
@@ -105,14 +105,14 @@
 			sectionsNames(){
 				return this.sections.map(section => {
 					return {
-						text  : section.name,
-						value : section._id
+						text  : section.name
+						// value : section._id
 					}
 				})
 			}		
 		},
 		methods : {
-			log(){console.log(this.sectionId)},
+			log(){console.log(this.section)},
 			addAnthor(){
 				this.$refs.form.reset()
 				this.$refs.title.focus();
@@ -131,8 +131,8 @@
 					const price       = this.price
 					const description = this.description
 					const imageUrl    = this.imageUrl
-					const sectionId   = this.sectionId
-					const resp  = await ShopService.insertProduct({title,price,description,imageUrl,sectionId})
+					const section     = this.section
+					const resp  = await ShopService.insertProduct({title,price,description,imageUrl,section})
 					this.$store.commit('set_my_products',await UserService.userInfos())
 					this.dialogText = `${resp.data.title} hass been added successflly do you want to add anthor product ?`
 					this.dialog = true
@@ -160,7 +160,7 @@
 			title      : {required},
 			description: {required},
   			price      : {required},
-  			sectionId  : {required}			
+  			section    : {required}			
 		},		
 		async created(){
 			this.sections = await SectionsService.getSections()
