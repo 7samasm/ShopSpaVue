@@ -1,20 +1,18 @@
 <template>
 	<v-card hover class="mb-2">
-		<v-layout column justify-center>
-			<v-flex md12>
+		<v-row>
+			<v-col cols="12" sm="12" class="pb-0">
 				<slot></slot>
-			</v-flex>
-			<v-flex md12>
 				<div class="card-img">
 					<img src="../../../public/d.jpg" alt="">
 				</div>
-			</v-flex>
-			<v-flex md12>
+			</v-col>
+			<v-col cols="12" sm="12">
 				<h3 class="title">{{prod.title}}</h3>
 				<div class="desc">{{prod.description}}</div>
 				<div class="price">{{prod.price}} SDG</div>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 	</v-card>
 </template>
 
@@ -36,7 +34,7 @@
 	    margin: 0 auto;
 	    display: block;
 	}
-	h3.title {text-align: center; padding: 10px 0}
+	h3.title {text-align: center; padding: 5px 0}
 	.desc {
 		padding: 0 2rem;
 		padding-bottom: 2rem;

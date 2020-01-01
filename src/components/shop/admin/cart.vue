@@ -4,7 +4,7 @@
 		<v-flex xs12 v-if="cart" v-for="(item,index) in cart" :key="index">
 			<v-card class="card-item">
 				<v-layout v-bind="binding" align-center>
-					<v-flex xs12 md2>
+					<v-flex xs12 md2 class="hidden-sm-and-down">
 						<v-responsive><v-img src="../../../../public/d.jpg" alt="" class="avatar"></v-img></v-responsive>
 					</v-flex>
 					<v-flex xs12 md3>
@@ -21,8 +21,8 @@
 						<v-btn 
 						:small="isMobile ? true : false"
 						:color="isMobile ? 'red' : ''"
-						:outline="isMobile" 
-						:flat="!isMobile" 
+						:outlined="isMobile" 
+						:text="!isMobile" 
 						:fab="!isMobile" 
 						@click="removeCartItem(item._id)">
 							<v-icon color="#FF5049" :small="isMobile ? true : false">delete</v-icon>
@@ -33,7 +33,7 @@
 		</v-flex>
 
 		<v-flex xs12 md3 v-if="totalPrice > 0">
-			<v-card flat class="card-item total-price">
+			<v-card text outlined class="card-item total-price">
 				<v-layout row wrap>
 					<v-flex xs6><p>total price :</p></v-flex>
 					<v-spacer></v-spacer>
@@ -42,7 +42,7 @@
 			</v-card>
 		</v-flex>
 		<v-flex md12 v-else>
-			<v-alert  dense  outline :value="true" type="warning">there are no products to show</v-alert>
+			<v-alert  outlined text :value="true" type="warning">there are no products to show</v-alert>
 		</v-flex>
 	</v-layout>
 </template>
@@ -87,7 +87,7 @@
 	p{margin: 0;}
 	.total-price p {
 		line-height : 30px;
-		padding: 0 10px
+		padding:  10px
 	}
 	.right{
 		float: right;

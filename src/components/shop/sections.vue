@@ -1,11 +1,9 @@
 <template>
-    <v-row dense>
+    <v-row row wrap dense>
 	    <v-col 
+	    	md="2" xs="6"
 			v-for="(prod,key) in prods"
-			:key="key"
-			cols="6"
-			sm="4"
-	    	md="2">
+			:key="key">
 	    	<router-link :to="'/product-details/' + prod._id" tag="a">
 				<card :product="prod"></card>
 			</router-link>
@@ -19,7 +17,15 @@
 	export default {
 		data() {
 			return {
+				section : this.$route.params.section,
 				prods : []
+			}
+		},
+		watch : {
+			async $route(){
+				// console.log('changed')
+				// this.section = this.$route.params.section,
+				this.prods = await ShopService.getProductsBySection(this.$route.params.section)
 			}
 		},
 		components: 
@@ -27,9 +33,7 @@
 			card
 		},
 		async created(){
-			console.log(this.$vuetify.breakpoint)
-			this.prods = await ShopService.getProducts()
-			console.log(this.prods)
+			this.prods = await ShopService.getProductsBySection(this.section)
 		}
 	}
 </script>

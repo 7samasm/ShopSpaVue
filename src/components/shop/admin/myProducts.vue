@@ -1,31 +1,27 @@
 <template>
-    <v-layout row wrap>
-	    <v-flex 
-	    	xs6 md2
+    <v-row  dense>
+	    <v-col 
 			v-for="(prod,key) in myProducts"
-			:key="key">
-				<card :product="prod">
-					<!-- slot to inject to cards -->
-					<v-layout row>
+			:key="key"
+			cols="6"
+			sm="4"
+	    	md="2">
+			<card :product="prod">
+				<!-- slot to inject to cards -->
 
-						<v-flex xs6>
-							<v-btn flat fab small @click="deleteProduct({id :prod._id, title: prod.title})">
-								<v-icon color="#FF5049">delete</v-icon>
-							</v-btn>
-						</v-flex>
+				<v-btn outlined fab xSmall color="red" @click="deleteProduct({id :prod._id, title: prod.title})" class="ml-2">
+					<v-icon color="#FF5049">delete</v-icon>
+				</v-btn>
 
-						<v-flex xs6>
-							<router-link :to="'/admin/edit-product/' + prod._id">
-								<v-btn flat fab small class="f-right" color="gray">
-									<v-icon color="teal">edit</v-icon>
-								</v-btn>
-							</router-link>
-						</v-flex>
+				<router-link :to="'/admin/edit-product/' + prod._id" class="float-right mr-2">
+					<v-btn outlined fab xSmall ripple color="teal">
+						<v-icon color="teal">edit</v-icon>
+					</v-btn>
+				</router-link>
 
-					</v-layout>
-				</card>
-		</v-flex>
-    </v-layout>
+			</card>
+		</v-col>
+    </v-row>
 </template>
 
 <script>
@@ -51,5 +47,7 @@
 	}
 </script>
 <style scoped>
-	.f-right{float: right;}
+	a {
+		text-decoration: none
+	}
 </style>

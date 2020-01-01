@@ -7,7 +7,8 @@ const state = {
     token : localStorage.getItem('token') || '',
     user  : {},
     cart  : {},
-    myProducts : []
+    myProducts : [],
+    sections : []
 };
 const getters = {
     user            : state => state.user,
@@ -17,7 +18,8 @@ const getters = {
     myProducts      : state => state.myProducts   || {},
     cart            : state => state.cart.products   || [],
     totalPrice      : state => state.cart.totalPrice || 0,
-    totalCartItems  : state => state.cart.totalItems ||0
+    totalCartItems  : state => state.cart.totalItems ||0,
+    sections        : state => state.sections
 }
 const mutations = {
     set_user(state,{user}){
@@ -32,6 +34,7 @@ const mutations = {
     auth_request(state) {
         state.status = 'loading'
     },
+    set_section(state,sections) {state.sections = sections},
     auth_success(state, token) {
         state.status = 'success'
         state.token  = token
@@ -53,7 +56,7 @@ const actions = {
         const {id,title} = payload
         if(confirm(`delete ${title} ?`)) {
             // delete product from database
-            await ShopService.deleteProduct({productId: id})
+            const doc  = await ShopService.deleteProduct({productId: id})
             const info = await UserService.userInfos()
             commit('set_cart',info)
             commit('set_my_products',info)

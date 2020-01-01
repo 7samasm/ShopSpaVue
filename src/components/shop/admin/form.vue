@@ -10,7 +10,7 @@
 	            </v-card-text>
 	            <v-card-actions>
 	                <v-spacer></v-spacer>
-	                <v-btn small class="ma-2" outline color="red" text @click="$router.push('/admin/my-product')">{{editable ? 'OK' : 'NO'}}</v-btn>
+	                <v-btn small class="ma-2" color="red" text @click="$router.push('/admin/my-product')">{{editable ? 'OK' : 'NO'}}</v-btn>
 	                <v-btn small class="ma-2 white--text"  :color="baseColor" text v-if="!this.editable" @click="addAnthor">Ok</v-btn>
 	            </v-card-actions>
 	        </v-card>
@@ -44,9 +44,10 @@
 					@change="log"
 					:items="sectionsNames"></v-autocomplete>
 				<v-btn
-					outline
+					outlined
 					v-if="editable"
 					:disabled="this.isValidated"
+					:loading="btnLoading"
 					@click="editProduct"
 					class="white--text ml-0"
 					:color="baseColor">
@@ -55,7 +56,8 @@
 					</v-btn>
 				<v-btn
 					:disabled="this.isValidated"
-					outline
+					:loading="btnLoading"
+					outlined
 					v-else
 					@click="addProduct"
 					class="white--text ml-0"
@@ -71,7 +73,7 @@
 <script>
 	import ShopService  from '../../../ShopService';
 	import UserService  from '../../../UserService';
-	import SectionsService  from '../../../SectionsService';
+	// import SectionsService  from '../../../SectionsService';
 	import { required} from 'vuelidate/lib/validators'
 	export default {
 		props : ['editable','productId'],
@@ -84,10 +86,10 @@
 				imageUrl    : 'd.jpg',
 				section     : '',
 
-				sections: [],
 				product     : {},
 				dialog   : false,
 				dialogText : '',
+				btnLoading: false,
 		        titleRules: [() => this.$v.title.required|| 'title is required'],
 				decRules  : [() => this.$v.description.required || 'description is required'],
 		        priceRules: [() => this.$v.price.required || 'price is required'],
@@ -103,7 +105,7 @@
 				return this.$v.$invalid
 			},
 			sectionsNames(){
-				return this.sections.map(section => {
+				return this.$store.getters.sections.map(section => {
 					return {
 						text  : section.name
 						// value : section._id
@@ -120,20 +122,25 @@
 				this.dialog = false
 			},	
 			editMode(){
-				const obj        = this.product
-				this.title       = obj.title
-				this.description = obj.description
-				this.price       = obj.price
+				const {title,price,description,imageUrl,section} = this.product
+				const obj = {title,price,description,imageUrl,section}
+				for (const prop in obj) this[prop] = obj[prop]
+			},
+			getInputsValue(){
+				return {
+					 title       : this.title,
+					 price       : this.price,
+					 description : this.description,
+					 imageUrl    : this.imageUrl,
+					 section     : this.section	
+				}
 			},
 			async addProduct(){
+				this.btnLoading = true
 				try {
-					const title       = this.title
-					const price       = this.price
-					const description = this.description
-					const imageUrl    = this.imageUrl
-					const section     = this.section
-					const resp  = await ShopService.insertProduct({title,price,description,imageUrl,section})
+					const resp  = await ShopService.insertProduct(this.getInputsValue())
 					this.$store.commit('set_my_products',await UserService.userInfos())
+					this.btnLoading = false
 					this.dialogText = `${resp.data.title} hass been added successflly do you want to add anthor product ?`
 					this.dialog = true
 				} catch(e) {
@@ -141,19 +148,22 @@
 				}
 			},
 			async editProduct(){
-				const title       = this.title
-				const price       = this.price
-				const description = this.description
-				const imageUrl    = this.imageUrl
-				const res = await ShopService.editProduct({
-					productId : this.productId,
-					title,price,description,imageUrl
-				})
-				// rest vuex state
-				this.$store.commit('set_cart',await ShopService.getCart())
-				this.$store.commit('set_my_products',await UserService.userInfos())
-				this.dialogText = `${res.data.title} has been updated successflly!`
-				this.dialog = true
+				this.btnLoading = true
+				try {
+					const payload = {productId : this.productId,...this.getInputsValue()}
+					const res = await ShopService.editProduct(payload)
+					// rest vuex state
+					const info = await UserService.userInfos();
+					this.$store.commit('set_cart',info)
+					this.$store.commit('set_my_products',info)
+					setTimeout(()=>{
+					this.btnLoading = false
+					this.dialogText = `${res.data.title} has been updated successflly!`
+					this.dialog = true
+					},500)
+				} catch(e) {
+					console.log(e);
+				}
 			}
 		},
 		validations: {
@@ -163,7 +173,6 @@
   			section    : {required}			
 		},		
 		async created(){
-			this.sections = await SectionsService.getSections()
 			console.log(this.sectionsNames)
 			if(this.editable){
 				try {

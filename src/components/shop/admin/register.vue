@@ -33,7 +33,7 @@
 							appendIcon="repeat"
 							:color="baseColor"></v-text-field>							
 						<v-btn
-							outline
+							outlined
 							@click="signUp"
 							class="white--text ml-0"
 							:disabled="this.isValidated"
