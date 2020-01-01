@@ -1,5 +1,5 @@
 <template>
-    <v-row dense>
+    <v-row row wrap dense>
 	    <v-col 
 			v-for="(prod,key) in prods"
 			:key="key"
@@ -17,7 +17,13 @@
 	export default {
 		data() {
 			return {
+				section : this.$route.params.section,
 				prods : []
+			}
+		},
+		watch : {
+			async $route(){
+				this.prods = await ShopService.getProductsBySection(this.$route.params.section)
 			}
 		},
 		components: 
@@ -25,7 +31,7 @@
 			card
 		},
 		async created(){
-			this.prods = await ShopService.getProducts()
+			this.prods = await ShopService.getProductsBySection(this.section)
 		}
 	}
 </script>

@@ -28,6 +28,11 @@ routes: [
       name: 'Product Details',
       component: () => import(/* webpackChunkName: "about" */ './views/product-details')
     },
+    {
+      path: '/sections/:section',
+      name: 'sections',
+      component: () => import(/* webpackChunkName: "about" */ './views/sections')
+    },    
     //admin
     {
       path: '/admin/my-product',

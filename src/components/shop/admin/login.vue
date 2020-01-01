@@ -10,7 +10,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn outline color="teal" text @click="dialog = false">
+                    <v-btn outlined color="teal" text @click="dialog = false">
                         ok
                     </v-btn>
                 </v-card-actions>
@@ -21,7 +21,7 @@
 				<v-card-text> -->
 				<v-form>
 					<v-text-field
-						solo
+						outlined
 						:rules="emailRules"
 						ref="mm"
 						v-model="email"
@@ -29,15 +29,15 @@
 						appendIcon="person"
 						color="purple"></v-text-field>
 					<v-text-field 
-						solo
+						outlined
 						:rules="passRules"
 						v-model="password"
 						type="password"
 						label="password"
 						appendIcon="keyboard"
 						color="purple"></v-text-field>
-					<v-btn :disabled="this.isValidated" @click="login" outline  color="purple" class="ml-0">login</v-btn>
-					<router-link to="/admin/register" class="right pt-2">
+					<v-btn :disabled="this.isValidated" @click="login" outlined  color="purple" class="ml-0">login</v-btn>
+					<router-link to="/admin/register" class="float-right pt-2">
 						<span>sign up</span>
 					</router-link>					
 				</v-form>

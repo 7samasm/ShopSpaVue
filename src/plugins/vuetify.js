@@ -1,9 +1,11 @@
 import 'material-design-icons-iconfont/dist/material-design-icons.css' // Ensure you are using css-loader
-import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
-import 'vuetify/src/stylus/app.styl'
+import Vue from 'vue';
+import Vuetify from 'vuetify/lib';
 
-Vue.use(Vuetify, {
-  iconfont: 'md',
-   rtl: false
-})
+
+Vue.use(Vuetify);
+const opts = {
+	iconfont: 'md',
+	rtl: false
+}
+export default new Vuetify(opts);

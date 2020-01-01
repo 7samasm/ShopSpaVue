@@ -1,5 +1,6 @@
 import UserService from '../../../UserService'
 import ShopService from '../../../ShopService'
+import SectionsService from '../../../SectionsService'
 import axios from 'axios'
 
 
@@ -36,6 +37,7 @@ const logout = function({ commit }){
 };
 const resetUCP = async function({commit,getters}){
     console.log(this)
+    commit('set_section',await SectionsService.getSections())
     if (!getters.isLoggedIn) return
     // set default heder requst Auth to token val
     axios.defaults.headers.common['x-Auth'] = getters.token

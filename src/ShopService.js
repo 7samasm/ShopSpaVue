@@ -17,7 +17,18 @@ export default class ShopService {
 			}
 		})
 	}
-
+    
+    static getProductsBySection(section) {
+ 		return new Promise(async (resolve,reject) => {
+			try
+			{
+				const {data}  = await axios.get(`${url}/sections/${section}`)
+				resolve(data)
+			} catch(err){
+				reject(err.message)
+			}
+		})   	
+    }
 
 	static getProductById(id) {
 		return new Promise(async (resolve,reject) => {

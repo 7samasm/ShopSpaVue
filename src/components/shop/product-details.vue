@@ -1,26 +1,26 @@
 <template>
 	<div>
-        <v-layout row wrap justify-center>
-		    <v-flex xs12 md6>
-		    	<v-card class="card-item">
+        <v-row justify="center">
+		    <v-col sm="8" md="6">
+		    	<v-card outlined text class="card-item">
 					<div class="card-img">
 						<img src="../../../public/d.jpg" alt="">
 					</div>
 				</v-card>
-				<v-card class="card-item" v-for="(item,index) in itreation" :key="index">
-					<v-layout row>
-						<v-flex>
+				<v-card outlined text class="card-item" v-for="(item,index) in itreation" :key="index">
+					<v-row>
+						<v-col>
 							<h4>{{index}}</h4>
-						</v-flex>
+						</v-col>
 						<v-spacer></v-spacer>
-						<v-flex>
+						<v-col>
 							<p class="item" v-if="index === 'price'">{{item}} SDG</p>
 							<p class="item" v-else>{{item}}</p>
-						</v-flex>
-					</v-layout>
+						</v-col>
+					</v-row>
 				</v-card>
-		    </v-flex>
-        </v-layout>
+		    </v-col>
+        </v-row>
         <v-btn v-if="$store.getters.isLoggedIn" fab @click="saveToCart(id)" :loading="isSending"><v-icon color="pink">add_shopping_cart</v-icon></v-btn>
     </div>
 </template>
@@ -50,7 +50,7 @@
 					// insert product to cart
 					await ShopService.insertCartItem({productId : id})
 					// update total cart's items to update header badge num
-					this.$store.commit('set_cart',await UserService.userInfos())
+					this.set_cart(await UserService.userInfos())
 					// make btn work again
 					this.isSending = false
 				} catch(e) {
@@ -65,7 +65,8 @@
 				this.itreation = {
 					title       : this.prod.title,
 					description : this.prod.description,
-					price       : this.prod.price
+					price       : this.prod.price,
+					section     : this.prod.section
 				} 	
 			} else {
 				this.$router.push('/')
@@ -79,8 +80,8 @@
 
 <style scoped>
 	.card-item {
-		margin: 10px 0;
-		padding: 10px;
+		margin: 2px 0;
+		padding: 0 10px;
 		color: #777
 	}
 	p.item {
