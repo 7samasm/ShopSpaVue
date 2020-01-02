@@ -4,7 +4,8 @@
     style="height: 100%;">
 
         <v-navigation-drawer
-        v-model="drawer"
+        :value="isDrawerOpen"
+        @input="$store.commit('set_drawer',$event)"
         fixed
         temporary
         >
@@ -18,7 +19,7 @@
                 </v-list-item-content>
 
                 <router-link v-if="!isLoggedIn"tag="div" to="/admin/login" class="v-list__item__action">
-                    <v-icon  @click="drawer = false">exit_to_app</v-icon>
+                    <v-icon>exit_to_app</v-icon>
                 </router-link>
 
                 <v-list-item-action v-else>
@@ -45,6 +46,7 @@
 
                 <v-list-group
                     color="black"
+                    appendIcon="expand_more"
                     prepend-icon="list"
                     value="true">
                     <template v-slot:activator>
@@ -64,16 +66,10 @@
 </template>
 
 <script>
-import {eventBus} from '../main';
 import {mapGetters} from 'vuex'
 export default {
-    data () {
-        return {
-            drawer: false
-        }
-    },
     computed : {
-        ...mapGetters(['isLoggedIn','user','sections']),
+        ...mapGetters(['isLoggedIn','user','sections','isDrawerOpen']),
         items (){
             return [
                 { 
@@ -100,12 +96,6 @@ export default {
                 this.$router.push('/admin/login')
             })
         }
-    },
-    created() {
-        console.log(this.items)
-        eventBus.$on('openDrawer',d => {
-        this.drawer = d;  
-        });
     }
 }
 </script>

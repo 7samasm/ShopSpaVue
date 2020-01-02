@@ -10,7 +10,7 @@
 			<v-col cols="12" sm="12">
 				<h3 class="title">{{prod.title}}</h3>
 				<div class="desc">{{prod.description}}</div>
-				<div class="price">{{prod.price}} SDG</div>
+				<div class="price">{{prod.price | currency}}</div>
 			</v-col>
 		</v-row>
 	</v-card>

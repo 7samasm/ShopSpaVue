@@ -8,7 +8,8 @@ const state = {
     user  : {},
     cart  : {},
     myProducts : [],
-    sections : []
+    sections : [],
+    drawer : false
 };
 const getters = {
     user            : state => state.user,
@@ -19,7 +20,9 @@ const getters = {
     cart            : state => state.cart.products   || [],
     totalPrice      : state => state.cart.totalPrice || 0,
     totalCartItems  : state => state.cart.totalItems ||0,
-    sections        : state => state.sections
+    // global
+    sections        : state => state.sections,
+    isDrawerOpen    : state => state.drawer
 }
 const mutations = {
     set_user(state,{user}){
@@ -48,6 +51,9 @@ const mutations = {
         state.user  = {},
         state.cart  ={},
         state.myProducts = []
+    },
+    set_drawer(state,v){
+        state.drawer = v
     }
 }
 const actions = {

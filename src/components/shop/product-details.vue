@@ -14,8 +14,7 @@
 						</v-col>
 						<v-spacer></v-spacer>
 						<v-col>
-							<p class="item" v-if="index === 'price'">{{item}} SDG</p>
-							<p class="item" v-else>{{item}}</p>
+							<p class="item">{{item}}</p>
 						</v-col>
 					</v-row>
 				</v-card>
@@ -65,7 +64,7 @@
 				this.itreation = {
 					title       : this.prod.title,
 					description : this.prod.description,
-					price       : this.prod.price,
+					price       : this.$options.filters.currency(this.prod.price),
 					section     : this.prod.section
 				} 	
 			} else {

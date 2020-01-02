@@ -1,7 +1,9 @@
 <template>
     <nav>
         <v-toolbar flat color="#f3eaf48c">
-            <v-app-bar-nav-icon @click="openDrawer"></v-app-bar-nav-icon>
+            <!-- for dev -->
+            <v-btn text fab small @click="openDrawer(true)"><v-icon>menu</v-icon></v-btn>
+            <!-- <v-app-bar-nav-icon @click="openDrawer"></v-app-bar-nav-icon> -->
             <v-toolbar-title>{{this.$route.name}}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
@@ -19,7 +21,6 @@
     </nav>
 </template>
 <script>
-import { eventBus } from '../main';
 import drawer from './Drawer.vue';
 import ShopService from '../ShopService';
 import { mapGetters, mapActions } from 'vuex'
@@ -35,8 +36,8 @@ export default {
         drawer,
     },
     methods: {
-        openDrawer() {
-            eventBus.$emit('openDrawer', true);
+        openDrawer(v) {
+            this.$store.commit('set_drawer',v);
         }
     }
 }

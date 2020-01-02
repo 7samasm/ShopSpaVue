@@ -12,7 +12,7 @@
 					</v-flex>
 					<!-- <v-spacer></v-spacer> -->
 					<v-flex xs12 md3>
-						<p>{{item.price * item.quantity}} SDG</p>
+						<p>{{item.price * item.quantity | currency}}</p>
 					</v-flex>
 					<v-flex xs12  md3>
 						<p>quantity : {{item.quantity}} pcs</p>
@@ -32,12 +32,12 @@
 			</v-card>
 		</v-flex>
 
-		<v-flex xs12 md3 v-if="totalPrice > 0">
+		<v-flex xs12 md6 v-if="totalPrice > 0">
 			<v-card text outlined class="card-item total-price">
 				<v-layout row wrap>
 					<v-flex xs6><p>total price :</p></v-flex>
 					<v-spacer></v-spacer>
-					<v-flex xs6><p class="right">{{totalPrice}} SDG</p></v-flex>
+					<v-flex xs6><p class="right">{{totalPrice | currency}}</p></v-flex>
 				</v-layout>
 			</v-card>
 		</v-flex>
