@@ -42,6 +42,7 @@
 					label="Section"
 					v-model="section"
 					@change="log"
+					append-icon="arrow_drop_down"
 					:items="sectionsNames"></v-autocomplete>
 				<v-btn
 					outlined
