@@ -1,6 +1,4 @@
 import  axios from 'axios'
-import  concat from 'lodash/fp/concat'
-
 
 const url = '/api'
 

@@ -1,9 +1,7 @@
 <template>
     <nav>
         <v-toolbar flat color="#f3eaf48c">
-            <!-- for dev -->
-            <v-btn text fab small @click="openDrawer(true)"><v-icon>menu</v-icon></v-btn>
-            <!-- <v-app-bar-nav-icon @click="openDrawer"></v-app-bar-nav-icon> -->
+            <v-btn icon @click="openDrawer(true)"><v-icon>menu</v-icon></v-btn>
             <v-toolbar-title>{{this.$route.name}}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>

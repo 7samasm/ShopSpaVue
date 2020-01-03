@@ -73,7 +73,6 @@
 <script>
 	import ShopService  from '../../../ShopService';
 	import UserService  from '../../../UserService';
-	// import SectionsService  from '../../../SectionsService';
 	import { required} from 'vuelidate/lib/validators'
 	export default {
 		props : ['editable','productId'],

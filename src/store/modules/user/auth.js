@@ -1,5 +1,4 @@
 import UserService from '../../../UserService'
-import ShopService from '../../../ShopService'
 import SectionsService from '../../../SectionsService'
 import axios from 'axios'
 
