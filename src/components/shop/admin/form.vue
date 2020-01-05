@@ -65,7 +65,7 @@
 					:color="baseColor">
 						<v-icon left>check_circle</v-icon>
 						<span>add</span>
-					</v-btn>
+				</v-btn>
 			</v-form>
 		</v-card-text>
 	</v-card>
@@ -128,11 +128,11 @@
 			},
 			getInputsValue(){
 				return {
-					 title       : this.title,
-					 price       : this.price,
-					 description : this.description,
-					 imageUrl    : this.imageUrl,
-					 section     : this.section	
+					title       : this.title,
+					price       : this.price,
+					description : this.description,
+					imageUrl    : this.imageUrl,
+					section     : this.section	
 				}
 			},
 			async addProduct(){
@@ -148,7 +148,7 @@
 				}
 			},
 			async editProduct(){
-				this.btnLoading = true
+				this.btnLoading = true				
 				try {
 					const payload = {productId : this.productId,...this.getInputsValue()}
 					const res = await ShopService.editProduct(payload)

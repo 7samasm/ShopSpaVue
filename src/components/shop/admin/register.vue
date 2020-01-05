@@ -1,6 +1,6 @@
 <template>
-	<v-layout justify-center>
-		<v-flex md6>
+	<v-row justify="center">
+		<v-col md='6'>
 			<v-card>
 				<v-card-text>
 					<v-form>
@@ -44,8 +44,8 @@
 					</v-form>
 				</v-card-text>
 			</v-card>
-		</v-flex>
-	</v-layout>
+		</v-col>
+	</v-row>
 </template>
 
 <script>

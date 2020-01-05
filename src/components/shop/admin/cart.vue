@@ -1,50 +1,54 @@
 <template>
-	<v-layout row wrap>
+	<v-row>
 
-		<v-flex xs12 v-if="cart" v-for="(item,index) in cart" :key="index">
+		<v-col 
+			cols="12" 
+			class="py-1"
+			v-if="cart" v-for="(item,index) in cart" :key="index">
 			<v-card class="card-item">
-				<v-layout v-bind="binding" align-center>
-					<v-flex xs12 md2 class="hidden-sm-and-down">
+				<v-row align="center">
+					<v-col  cols="2"  class="py-1 hidden-sm-and-down">
 						<v-responsive><v-img src="../../../../public/d.jpg" alt="" class="avatar"></v-img></v-responsive>
-					</v-flex>
-					<v-flex xs12 md3>
+					</v-col>
+					<v-col class="py-1 text-center" :cols="toggleAutoGrid">
 						<p>{{item.title}}</p>
-					</v-flex>
-					<!-- <v-spacer></v-spacer> -->
-					<v-flex xs12 md3>
+					</v-col>
+					<v-col class="py-1 text-center" :cols="toggleAutoGrid">
 						<p>{{item.price * item.quantity | currency}}</p>
-					</v-flex>
-					<v-flex xs12  md3>
+					</v-col>
+					<v-col class="py-1 text-center" :cols="toggleAutoGrid">
 						<p>quantity : {{item.quantity}} pcs</p>
-					</v-flex>
-					<v-flex xs12 md1>
+					</v-col>
+					<v-col class="py-1" :cols="toggleAutoGrid">
 						<v-btn 
 						:small="isMobile ? true : false"
 						:color="isMobile ? 'red' : ''"
 						:outlined="isMobile" 
 						:text="!isMobile" 
-						:fab="!isMobile" 
+						:fab="!isMobile"
+						:class="isMobile ? 'dBlock' : 'float-right mr-2'"
 						@click="removeCartItem(item._id)">
 							<v-icon color="#FF5049" :small="isMobile ? true : false">delete</v-icon>
 						</v-btn>
-					</v-flex>					
-				</v-layout>
+					</v-col>					
+				</v-row>
 			</v-card>
-		</v-flex>
+		</v-col>
 
-		<v-flex xs12 md6 v-if="totalPrice > 0">
+		<v-col md="6" v-if="totalPrice > 0">
 			<v-card text outlined class="card-item total-price">
-				<v-layout row wrap>
-					<v-flex xs6><p>total price :</p></v-flex>
+				<v-row align-content="space-between">
+					<v-col><p class="pl-2">total price :</p></v-col>
 					<v-spacer></v-spacer>
-					<v-flex xs6><p class="right">{{totalPrice | currency}}</p></v-flex>
-				</v-layout>
+					<v-col><p class="text-right pr-2">{{totalPrice | currency}}</p></v-col>
+				</v-row>
 			</v-card>
-		</v-flex>
-		<v-flex md12 v-else>
-			<v-alert  outlined text :value="true" type="warning">there are no products to show</v-alert>
-		</v-flex>
-	</v-layout>
+		</v-col>
+		<v-col v-else>
+			<v-alert  icon="warning" outlined text :value="true" type="warning">there are no products to show</v-alert>
+		</v-col>
+
+	</v-row>
 </template>
 
 <script>
@@ -56,18 +60,12 @@
 				'totalPrice',
 				'totalCartItems'
 			]),
-			binding(){
-				const binding = {}
-				if (this.$vuetify.breakpoint.xs) {
-					binding.column = true
-					return binding
-				}
-			},
 			isMobile(){
 				let val = false
 				if (this.$vuetify.breakpoint.xs) val = true
 				return val
-			}
+			},
+			toggleAutoGrid() { return this.isMobile  ? 12 : false }
 		},
 		methods : {
 			...mapActions([
@@ -78,18 +76,12 @@
 </script>
 
 <style scoped>
-	.card-item {
-		margin: 2px 0
-	}
 	.avatar {
-		width: 50%/*8rem*/
+		width: 50%
 	}
 	p{margin: 0;}
-	.total-price p {
-		line-height : 30px;
-		padding:  10px
-	}
-	.right{
-		float: right;
+	.dBlock {
+		display: block;
+		margin: 0 auto 5px
 	}
 </style>

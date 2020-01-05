@@ -1,5 +1,5 @@
 <template>
-	<v-layout row justify-center class="mt-5">
+	<v-row row justify="center" class="mt-5">
         <v-dialog v-model="dialog" width="400">
             <v-card>
                 <v-card-title class='font-weight-medium'>
@@ -16,7 +16,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-		<v-flex md4>
+		<v-col sm="6" md="4">
 <!-- 			<v-card>
 				<v-card-text> -->
 				<v-form>
@@ -43,8 +43,8 @@
 				</v-form>
 		<!-- 	</v-card-text>
 			</v-card> -->
-		</v-flex>
-	</v-layout>
+		</v-col>
+	</v-row>
 </template>
 
 <script>

@@ -4,7 +4,7 @@ import App from './App.vue'
 import router from './router'
 
 Vue.use(Vuelidate)
-import {store} from './store/store'
+import {store} from '@/store/store'
 import '@/plugins/currency';
 import vuetify from '@/plugins/vuetify';
 
