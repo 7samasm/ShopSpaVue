@@ -8,6 +8,21 @@
 				<card :product="prod"></card>
 			</router-link>
 		</v-col>
+		<v-col v-if="prods.length === 0">
+<!-- 			<v-sheet
+				v-if="prods.length === 0"
+			    :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"> -->
+			    <v-row>
+			    	<v-col
+						v-for="(x,key) in 12"
+						:key="key"
+						cols="6" sm="4" md="2">
+					    <v-skeleton-loader
+					        type="image"></v-skeleton-loader>
+			    	</v-col>
+			    </v-row>
+			<!-- </v-sheet> -->
+		</v-col>		
     </v-row>
 </template>
 
@@ -23,7 +38,10 @@
 		},
 		watch : {
 			async $route(){
-				this.prods = await ShopService.getProductsBySection(this.$route.params.section)
+				this.prods = []
+				setTimeout(async()=>{
+					this.prods = await ShopService.getProductsBySection(this.$route.params.section)
+				},500)
 			}
 		},
 		components: 
@@ -31,7 +49,9 @@
 			card
 		},
 		async created(){
-			this.prods = await ShopService.getProductsBySection(this.section)
+				setTimeout(async()=>{
+					this.prods = await ShopService.getProductsBySection(this.$route.params.section)
+				},500)
 		}
 	}
 </script>

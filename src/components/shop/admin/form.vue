@@ -37,17 +37,26 @@
 					type="number"
 					appendIcon="money"
 					:color="baseColor"></v-text-field>
+				<v-file-input
+					prepend-icon=""
+					v-model="image"
+					clear-icon ="clear"
+					clearable
+					ref="uploadedImage"
+					:color="baseColor"
+					append-icon="camera_alt"
+					label="upload photo"></v-file-input>
 			    <v-autocomplete
 			    	:rules="sectRules" 
 					label="Section"
 					v-model="section"
 					@change="log"
 					append-icon="arrow_drop_down"
-					:items="sectionsNames"></v-autocomplete>
+					:items="$store.getters.mapSections"></v-autocomplete>
 				<v-btn
 					outlined
 					v-if="editable"
-					:disabled="this.isValidated"
+					:disabled="$v.$invalid"
 					:loading="btnLoading"
 					@click="editProduct"
 					class="white--text ml-0"
@@ -56,7 +65,7 @@
 						<span>edit</span>						
 					</v-btn>
 				<v-btn
-					:disabled="this.isValidated"
+					:disabled="$v.$invalid"
 					:loading="btnLoading"
 					outlined
 					v-else
@@ -84,6 +93,7 @@
 				price       : '',
 				description : '',
 				imageUrl    : 'd.jpg',
+				image       : null,
 				section     : '',
 
 				product     : {},
@@ -100,25 +110,13 @@
 			baseColor(){
 				return this.editable ? 'orange' : 'teal'
 				console.log('computed called')
-			},
-			isValidated() {
-				return this.$v.$invalid
-			},
-			sectionsNames(){
-				return this.$store.getters.sections.map(section => {
-					return {
-						text  : section.name
-						// value : section._id
-					}
-				})
 			}		
 		},
 		methods : {
 			log(){console.log(this.section)},
 			addAnthor(){
 				this.$refs.form.reset()
-				this.$refs.title.focus();
-				this.$refs.form.resetValidation()
+				// this.$refs.form.resetValidation()
 				this.dialog = false
 			},	
 			editMode(){
@@ -126,19 +124,19 @@
 				const obj = {title,price,description,imageUrl,section}
 				for (const prop in obj) this[prop] = obj[prop]
 			},
-			getInputsValue(){
-				return {
-					title       : this.title,
-					price       : this.price,
-					description : this.description,
-					imageUrl    : this.imageUrl,
-					section     : this.section	
-				}
+			makeFormData(key = null){
+				const keys = ['title','price','description','imageUrl','section']
+				if (key) keys.push(key)
+				const formData =  new FormData()
+				for (let key of keys)
+					formData.append(key,this[key])
+				if(this.image) formData.append('image',this.image,this.image.name)
+				return formData
 			},
 			async addProduct(){
 				this.btnLoading = true
 				try {
-					const resp  = await ShopService.insertProduct(this.getInputsValue())
+					const resp  = await ShopService.insertProduct(this.makeFormData())
 					this.$store.commit('set_my_products',await UserService.userInfos())
 					this.btnLoading = false
 					this.dialogText = `${resp.data.title} hass been added successflly do you want to add anthor product ?`
@@ -148,10 +146,10 @@
 				}
 			},
 			async editProduct(){
-				this.btnLoading = true				
+				this.btnLoading = true
+				console.log(this.image)				
 				try {
-					const payload = {productId : this.productId,...this.getInputsValue()}
-					const res = await ShopService.editProduct(payload)
+					const res = await ShopService.editProduct(this.makeFormData('productId'))
 					// rest vuex state
 					const info = await UserService.userInfos();
 					this.$store.commit('set_cart',info)

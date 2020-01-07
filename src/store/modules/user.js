@@ -21,8 +21,16 @@ const getters = {
     totalPrice      : state => state.cart.totalPrice || 0,
     totalCartItems  : state => state.cart.totalItems ||0,
     // global
+    isDrawerOpen    : state => state.drawer,
     sections        : state => state.sections,
-    isDrawerOpen    : state => state.drawer
+    mapSections        : state => {
+        return state.sections.map(el=>{
+            return {
+                text  : el.name
+                // value : section._id
+            }
+        })
+    },
 }
 const mutations = {
     set_user(state,{user}){

@@ -4,7 +4,7 @@
 		    <v-col sm="8" md="6">
 		    	<v-card outlined text class="card-item">
 					<div class="card-img">
-						<img src="../../../public/d.jpg" alt="">
+						<img :src="'http://localhost:3001/img/' + prod.imageUrl" alt="">
 					</div>
 				</v-card>
 				<v-card outlined text class="card-item" v-for="(item,index) in itreation" :key="index">

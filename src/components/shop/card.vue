@@ -4,7 +4,7 @@
 			<v-col cols="12" sm="12" class="pb-0">
 				<slot></slot>
 				<div class="card-img">
-					<img src="../../../public/d.jpg" alt="">
+					<img :src="'http://localhost:3001/img/' + prod.imageUrl">
 				</div>
 			</v-col>
 			<v-col cols="12" sm="12">
