@@ -1,27 +1,50 @@
 <template>
-	<div>
-        <v-row justify="center">
-		    <v-col sm="8" md="6">
-		    	<v-card outlined text class="card-item">
-					<div class="card-img">
-						<img :src="'http://localhost:3001/img/' + prod.imageUrl" alt="">
-					</div>
-				</v-card>
-				<v-card outlined text class="card-item" v-for="(item,index) in itreation" :key="index">
-					<v-row>
-						<v-col>
-							<h4>{{index}}</h4>
-						</v-col>
-						<v-spacer></v-spacer>
-						<v-col>
-							<p class="item">{{item}}</p>
-						</v-col>
-					</v-row>
-				</v-card>
-		    </v-col>
-        </v-row>
-        <v-btn v-if="$store.getters.isLoggedIn" fab @click="saveToCart(id)" :loading="isSending"><v-icon color="pink">add_shopping_cart</v-icon></v-btn>
-    </div>
+    <v-row justify="center">
+	    <v-col sm="8" md="6" v-if="prod.hasOwnProperty('title')">
+	    	<v-card outlined text class="card-item">
+				<div class="card-img">
+					<img :src="'http://localhost:3001/img/' + prod.imageUrl" alt="">
+				</div>
+			</v-card>
+			<v-card outlined text class="card-item" v-for="(item,index) in itreation" :key="index">
+				<v-row>
+					<v-col>
+						<h4>{{index}}</h4>
+					</v-col>
+					<v-spacer></v-spacer>
+					<v-col>
+						<p class="text-right sm-text font-weight-thin red--text my-0">{{item}}</p>
+					</v-col>
+				</v-row>
+			</v-card>
+			<v-card outlined text class="card-item">
+				<v-row>
+					<v-col>
+						<h4>section</h4>
+					</v-col>
+					<v-spacer></v-spacer>
+					<v-col>
+						<router-link :to="`/sections/${prod.section}`">
+							<p class='text-right sm-text font-weight-thin indigo--text my-0'>{{prod.section}}</p>
+						</router-link>
+					</v-col>
+				</v-row>
+			</v-card>				
+	    </v-col>
+	    <!-- preloder page -->
+	    <v-col v-else sm="8" md="6">
+			    <v-skeleton-loader
+			        type="image,table-heading,table-heading,table-heading,table-heading"></v-skeleton-loader>
+	    </v-col>
+		<v-btn 
+			v-if="$store.getters.isLoggedIn && prod.hasOwnProperty('title')"
+			@click="saveToCart(id)"
+			fab fixed bottom left
+			:class="!$vuetify.breakpoint.xs ? 'left' : ''"
+			:loading="isSending">
+				<v-icon color="pink">add_shopping_cart</v-icon>
+		</v-btn>
+    </v-row>
 </template>
 
 <script>
@@ -58,19 +81,19 @@
 			}
 		},
 		async created(){
-			const res = await ShopService.getProductById(this.id)
-			if(res){
-				this.prod = res
-				this.itreation = {
-					title       : this.prod.title,
-					description : this.prod.description,
-					price       : this.$options.filters.currency(this.prod.price),
-					section     : this.prod.section
-				} 	
-			} else {
-				this.$router.push('/')
-			}
-			console.log(this.itreation)
+			setTimeout(async ()=> {
+				const res = await ShopService.getProductById(this.id)
+				if(res){
+					this.prod = res
+					this.itreation = {
+						title       : this.prod.title,
+						description : this.prod.description,
+						price       : this.$options.filters.currency(this.prod.price)					} 	
+				} else {
+					this.$router.push('/')
+				}
+				console.log(this.itreation)
+			},1000)
 		}
 	}
 </script>
@@ -78,41 +101,24 @@
 
 
 <style scoped>
+	.left {
+		left: 3.5rem;
+		bottom: 30px
+	}
 	.card-item {
 		margin: 2px 0;
 		padding: 0 10px;
 		color: #777
 	}
-	p.item {
-	    text-align: right;
-	    font-size: 14px;
-	    color: #dc3636;
-	    margin: 0
-	}	
+	p.sm-text {font-size: 14px;}	
 	.card-img {
-		padding-top: 20px;
+		padding: 15px 0;
 		position: relative;
 	}
 	.card-img img {
-	    width: 70%;
+	    width: 85%;
 	    margin: 0 auto;
 	    display: block;
 	}
-	h4.title {text-align: center; padding: 15px 0}
-	.desc {
-		padding: 0 2rem;
-		padding-bottom: 2rem;
-		color: #888
-	}
-	.price  {
-	    position: relative;
-	    text-align: center;
-	    padding-bottom: 10px;
-	}
-	.price div {
-	    background: #ca33e4;
-	    color: #fff;
-	    padding: 4px;
-	    font-weight: bold;
-	}
+	a {text-decoration: none;}
 </style>

@@ -35,7 +35,7 @@ const logout = function({ commit }){
     })
 };
 const resetUCP = async function({commit,getters}){
-    console.log(this)
+    // console.log(this)
     commit('set_section',await SectionsService.getSections())
     if (!getters.isLoggedIn) return
     // set default heder requst Auth to token val

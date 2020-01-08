@@ -3,9 +3,7 @@
 	    <v-col 
 			v-for="(prod,key) in myProducts"
 			:key="key"
-			cols="6"
-			sm="4"
-	    	md="2">
+			cols="6" sm="4" md="2">
 			<card :product="prod">
 				<!-- slot to inject to cards -->
 
@@ -21,6 +19,18 @@
 
 			</card>
 		</v-col>
+		<!-- preloader screen -->
+		<v-col v-if="myProducts.length === 0">
+			    <v-row>
+			    	<v-col
+						v-for="(x,key) in 12"
+						:key="key"
+						cols="6" sm="4" md="2">
+					    <v-skeleton-loader
+					        type="image"></v-skeleton-loader>
+			    	</v-col>
+			    </v-row>
+		</v-col>		
     </v-row>
 </template>
 

@@ -8,10 +8,8 @@
 				<card :product="prod"></card>
 			</router-link>
 		</v-col>
+		<!-- preload screen -->
 		<v-col v-if="prods.length === 0">
-<!-- 			<v-sheet
-				v-if="prods.length === 0"
-			    :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"> -->
 			    <v-row>
 			    	<v-col
 						v-for="(x,key) in 12"
@@ -21,7 +19,6 @@
 					        type="image"></v-skeleton-loader>
 			    	</v-col>
 			    </v-row>
-			<!-- </v-sheet> -->
 		</v-col>		
     </v-row>
 </template>
