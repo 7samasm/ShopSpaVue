@@ -4,7 +4,7 @@
 			<v-col cols="12" sm="12" class="pb-0">
 				<slot></slot>
 				<div class="card-img">
-					<img :src="'http://localhost:3001/img/' + prod.imageUrl">
+					<v-img class="img" :aspect-ratio="188/110" :src="'http://localhost:3001/img/' + prod.imageUrl"></v-img>
 				</div>
 			</v-col>
 			<v-col cols="12" sm="12">
@@ -29,7 +29,7 @@
 </script>
 
 <style scoped>
-	.card-img img {
+	.img {
 	    width: 70%;
 	    margin: 0 auto;
 	    display: block;

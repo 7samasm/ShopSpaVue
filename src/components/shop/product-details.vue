@@ -1,9 +1,9 @@
 <template>
     <v-row justify="center">
-	    <v-col sm="8" md="6" v-if="prod.hasOwnProperty('title')">
+	    <v-col sm="7" v-if="prod.hasOwnProperty('title')">
 	    	<v-card outlined text class="card-item">
 				<div class="card-img">
-					<img :src="'http://localhost:3001/img/' + prod.imageUrl" alt="">
+					<v-img :aspect-ratio="643/376" :src="'http://localhost:3001/img/' + prod.imageUrl" alt=""></v-img>
 				</div>
 			</v-card>
 			<v-card outlined text class="card-item" v-for="(item,index) in itreation" :key="index">
@@ -13,7 +13,7 @@
 					</v-col>
 					<v-spacer></v-spacer>
 					<v-col>
-						<p class="text-right sm-text font-weight-thin red--text my-0">{{item}}</p>
+						<p class="text-right sm-text font-weight-thin indigo--text my-0">{{item}}</p>
 					</v-col>
 				</v-row>
 			</v-card>
@@ -24,17 +24,19 @@
 					</v-col>
 					<v-spacer></v-spacer>
 					<v-col>
-						<router-link :to="`/sections/${prod.section}`">
-							<p class='text-right sm-text font-weight-thin indigo--text my-0'>{{prod.section}}</p>
-						</router-link>
+						<p class='text-right sm-text font-weight-thin  my-0'>
+							<router-link :to="`/sections/${prod.section}`" class="teal--text">
+								<v-icon color="teal">link</v-icon> {{prod.section}}
+							</router-link>
+						</p>
 					</v-col>
 				</v-row>
 			</v-card>				
 	    </v-col>
 	    <!-- preloder page -->
-	    <v-col v-else sm="8" md="6">
+	    <v-col v-else sm="7">
 			    <v-skeleton-loader
-			        type="image,table-heading,table-heading,table-heading,table-heading"></v-skeleton-loader>
+			        :type="$vuetify.breakpoint.xs ? 'image,table-heading@4' : 'image@2,table-heading@4'"></v-skeleton-loader>
 	    </v-col>
 		<v-btn 
 			v-if="$store.getters.isLoggedIn && prod.hasOwnProperty('title')"

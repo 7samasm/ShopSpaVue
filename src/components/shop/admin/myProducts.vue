@@ -6,30 +6,29 @@
 			cols="6" sm="4" md="2">
 			<card :product="prod">
 				<!-- slot to inject to cards -->
-
-				<v-btn outlined fab xSmall color="red" @click="deleteProduct({id :prod._id, title: prod.title})" class="ml-2">
-					<v-icon color="#FF5049">delete</v-icon>
-				</v-btn>
-
-				<router-link :to="'/admin/edit-product/' + prod._id" class="float-right mr-2">
-					<v-btn outlined fab xSmall ripple color="teal">
-						<v-icon color="teal">edit</v-icon>
+				<div class="mb-3">
+					<v-btn text outlined  small color="red" @click="deleteProduct({id :prod._id, title: prod.title})" class="ml-2">
+						<v-icon small color="#FF5049">delete</v-icon>
 					</v-btn>
-				</router-link>
+
+					<router-link :to="'/admin/edit-product/' + prod._id" class="float-right mr-2">
+						<v-btn text outlined  small ripple color="teal">
+							<v-icon small color="teal">edit</v-icon>
+						</v-btn>
+					</router-link>
+				</div>
 
 			</card>
 		</v-col>
-		<!-- preloader screen -->
-		<v-col v-if="myProducts.length === 0">
-			    <v-row>
-			    	<v-col
-						v-for="(x,key) in 12"
-						:key="key"
-						cols="6" sm="4" md="2">
-					    <v-skeleton-loader
-					        type="image"></v-skeleton-loader>
-			    	</v-col>
-			    </v-row>
+		<!-- preload screen -->
+		<v-col 
+			v-if="myProducts.length === 0"
+			v-for="(x,key) in 12"
+			:key="key"
+			cols="6" sm="4" md="2">			
+			    <v-skeleton-loader
+			    	max-height="245"
+			        type="image"></v-skeleton-loader>
 		</v-col>		
     </v-row>
 </template>

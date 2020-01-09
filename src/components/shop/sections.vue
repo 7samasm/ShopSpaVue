@@ -9,16 +9,14 @@
 			</router-link>
 		</v-col>
 		<!-- preload screen -->
-		<v-col v-if="prods.length === 0">
-			    <v-row>
-			    	<v-col
-						v-for="(x,key) in 12"
-						:key="key"
-						cols="6" sm="4" md="2">
-					    <v-skeleton-loader
-					        type="image"></v-skeleton-loader>
-			    	</v-col>
-			    </v-row>
+		<v-col 
+			v-if="prods.length === 0"
+			v-for="(x,key) in 12"
+			:key="key"
+			cols="6" sm="4" md="2">			
+			    <v-skeleton-loader
+			    	max-height="245"
+			        type="image"></v-skeleton-loader>
 		</v-col>		
     </v-row>
 </template>

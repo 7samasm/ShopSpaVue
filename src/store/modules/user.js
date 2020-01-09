@@ -17,13 +17,13 @@ const getters = {
     token           : state => state.token,
     authStatus      : state => state.status,
     myProducts      : state => state.myProducts   || {},
-    cart            : state => state.cart.products   || [],
+    cart            : state => state.cart.products   || ['init'],
     totalPrice      : state => state.cart.totalPrice || 0,
     totalCartItems  : state => state.cart.totalItems ||0,
     // global
     isDrawerOpen    : state => state.drawer,
     sections        : state => state.sections,
-    mapSections        : state => {
+    mapSections     : state => {
         return state.sections.map(el=>{
             return {
                 text  : el.name
