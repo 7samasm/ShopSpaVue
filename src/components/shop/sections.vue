@@ -34,19 +34,12 @@
 		watch : {
 			async $route(){
 				this.prods = []
-				setTimeout(async()=>{
-					this.prods = await ShopService.getProductsBySection(this.$route.params.section)
-				},500)
+				this.prods = await ShopService.getProductsBySection(this.$route.params.section)
 			}
 		},
-		components: 
-		{
-			card
-		},
+		components:{card},
 		async created(){
-				setTimeout(async()=>{
-					this.prods = await ShopService.getProductsBySection(this.$route.params.section)
-				},500)
+			this.prods = await ShopService.getProductsBySection(this.$route.params.section)
 		}
 	}
 </script>

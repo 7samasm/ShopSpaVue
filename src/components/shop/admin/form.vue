@@ -38,6 +38,7 @@
 					appendIcon="money"
 					:color="baseColor"></v-text-field>
 				<v-file-input
+					dense
 					prepend-icon=""
 					v-model="image"
 					clear-icon ="clear"
@@ -45,7 +46,8 @@
 					ref="uploadedImage"
 					:color="baseColor"
 					append-icon="camera_alt"
-					label="upload photo"></v-file-input>
+					accept="image/*"
+					label="upload photo [ optinal ]"></v-file-input>
 			    <v-autocomplete
 			    	:rules="sectRules" 
 					label="Section"

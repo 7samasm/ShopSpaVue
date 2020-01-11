@@ -1,30 +1,30 @@
 <template>
     <v-row justify="center">
 	    <v-col sm="7" v-if="prod.hasOwnProperty('title')">
-	    	<v-card outlined text class="card-item">
+	    	<v-card outlined text class="my-1 px-3">
 				<div class="card-img">
 					<v-img :aspect-ratio="643/376" :src="'http://localhost:3001/img/' + prod.imageUrl" alt=""></v-img>
 				</div>
 			</v-card>
-			<v-card outlined text class="card-item" v-for="(item,index) in itreation" :key="index">
+			<v-card outlined text class="my-1 px-3" v-for="(item,index) in itreation" :key="index">
 				<v-row>
 					<v-col>
-						<h4>{{index}}</h4>
+						<p class="font-weight-bold my-0 grey--text">{{index}}</p>
 					</v-col>
 					<v-spacer></v-spacer>
 					<v-col>
-						<p class="text-right sm-text font-weight-thin indigo--text my-0">{{item}}</p>
+						<p class="text-right sm-text font-weight-medium indigo--text my-0">{{item}}</p>
 					</v-col>
 				</v-row>
 			</v-card>
-			<v-card outlined text class="card-item">
+			<v-card outlined text class="my-1 px-3">
 				<v-row>
 					<v-col>
-						<h4>section</h4>
+						<p class="font-weight-bold my-0 grey--text">section</p>
 					</v-col>
 					<v-spacer></v-spacer>
 					<v-col>
-						<p class='text-right sm-text font-weight-thin  my-0'>
+						<p class='text-right sm-text font-weight-medium  my-0'>
 							<router-link :to="`/sections/${prod.section}`" class="teal--text">
 								<v-icon color="teal">link</v-icon> {{prod.section}}
 							</router-link>
@@ -83,19 +83,17 @@
 			}
 		},
 		async created(){
-			setTimeout(async ()=> {
-				const res = await ShopService.getProductById(this.id)
-				if(res){
-					this.prod = res
-					this.itreation = {
-						title       : this.prod.title,
-						description : this.prod.description,
-						price       : this.$options.filters.currency(this.prod.price)					} 	
-				} else {
-					this.$router.push('/')
-				}
-				console.log(this.itreation)
-			},1000)
+			const res = await ShopService.getProductById(this.id)
+			if(res){
+				this.prod = res
+				this.itreation = {
+					title       : this.prod.title,
+					description : this.prod.description,
+					price       : this.$options.filters.currency(this.prod.price)					} 	
+			} else {
+				this.$router.push('/')
+			}
+			console.log(this.itreation)
 		}
 	}
 </script>
@@ -107,11 +105,11 @@
 		left: 3.5rem;
 		bottom: 30px
 	}
-	.card-item {
+/*	.my-1 px-3 {
 		margin: 2px 0;
 		padding: 0 10px;
 		color: #777
-	}
+	}*/
 	p.sm-text {font-size: 14px;}	
 	.card-img {
 		padding: 15px 0;

@@ -7,7 +7,8 @@
 			<v-card class="card-item">
 				<v-row align="center">
 					<v-col  cols="2"  class="py-1 hidden-sm-and-down">
-						<v-responsive><v-img src="../../../../public/d.jpg" alt="" class="avatar"></v-img></v-responsive>
+						<!-- http://localhost:3001 https://shop-spa-test.herokuapp.com -->
+						<v-avatar size="50px" class='ml-2'><v-img :src="'http://localhost:3001/img/' + item.imageUrl" alt="" class="avatar"></v-img></v-avatar>
 					</v-col>
 					<v-col class="py-1 text-center" :cols="toggleAutoGrid">
 						<p>{{item.title}}</p>

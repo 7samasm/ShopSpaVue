@@ -31,16 +31,9 @@
 				prods : []
 			}
 		},
-		components: 
-		{
-			card
-		},
+		components: {card},
 		async created(){
-			setTimeout(async()=>{
-				this.prods = await ShopService.getProducts()
-				console.log('created')
-			},500)
-			console.log('created')
+			this.prods = await ShopService.getProducts()
 		}
 	}
 </script>
