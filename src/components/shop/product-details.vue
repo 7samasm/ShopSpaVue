@@ -13,7 +13,7 @@
 					</v-col>
 					<v-spacer></v-spacer>
 					<v-col>
-						<p class="text-right sm-text font-weight-medium indigo--text my-0">{{item}}</p>
+						<p class="text-right sm-text font-weight-medium pink--text my-0">{{item}}</p>
 					</v-col>
 				</v-row>
 			</v-card>
@@ -25,8 +25,8 @@
 					<v-spacer></v-spacer>
 					<v-col>
 						<p class='text-right sm-text font-weight-medium  my-0'>
-							<router-link :to="`/sections/${prod.section}`" class="teal--text">
-								<v-icon color="teal">link</v-icon> {{prod.section}}
+							<router-link :to="`/sections/${prod.section}`" class="purple--text">
+								<v-icon color="purple">link</v-icon> {{prod.section}}
 							</router-link>
 						</p>
 					</v-col>
@@ -44,7 +44,7 @@
 			fab fixed bottom left
 			:class="!$vuetify.breakpoint.xs ? 'left' : ''"
 			:loading="isSending">
-				<v-icon color="pink">add_shopping_cart</v-icon>
+				<v-icon color="purple">add_shopping_cart</v-icon>
 		</v-btn>
     </v-row>
 </template>

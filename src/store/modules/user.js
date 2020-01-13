@@ -68,13 +68,13 @@ const actions = {
     ...auth,
     async deleteProduct({commit,dispatch},payload){
         const {id,title} = payload
-        if(confirm(`delete ${title} ?`)) {
+        // if(confirm(`delete ${title} ?`)) {
             // delete product from database
             const doc  = await ShopService.deleteProduct({productId: id})
             const info = await UserService.userInfos()
             commit('set_cart',info)
             commit('set_my_products',info)
-        }
+        // }
     },
     async removeCartItem({commit},prodId){
         await ShopService.deleteCartItem({productId : prodId})

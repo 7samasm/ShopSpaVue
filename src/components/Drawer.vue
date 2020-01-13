@@ -26,8 +26,7 @@
                     <v-icon  @click="logout">logout</v-icon>
                 </v-list-item-action>
             </v-list-item>
-
-                <v-divider></v-divider>
+            <v-divider></v-divider>
             <v-list dense shaped>
 
                 <v-list-item
@@ -47,8 +46,7 @@
                 <v-list-group
                     color="black"
                     appendIcon="expand_more"
-                    prepend-icon="list"
-                    value="true">
+                    prepend-icon="list">
                     <template v-slot:activator>
                       <v-list-item-title>Sections</v-list-item-title>
                     </template>

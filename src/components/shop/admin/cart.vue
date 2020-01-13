@@ -20,11 +20,11 @@
 						<p>quantity : {{item.quantity}} pcs</p>
 					</v-col>
 					<v-col class="py-1" :cols="toggleAutoGrid">
-						<v-btn 
+						<v-btn
+						:icon="!isMobile"
 						:small="isMobile ? true : false"
 						:color="isMobile ? 'red' : ''"
 						:outlined="isMobile" 
-						:text="!isMobile" 
 						:fab="!isMobile"
 						:class="isMobile ? 'dBlock' : 'float-right mr-2'"
 						@click="removeCartItem(item._id)">
